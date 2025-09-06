@@ -1,0 +1,76 @@
+# 🎨 themes
+#theme = ayu
+#theme = Ayu Mirage
+#theme = Broadcast
+#theme = catppuccin-mocha
+#theme = Chalk
+#theme = Chalkboard
+#theme = Ciapre
+#theme = CobaltNext
+#theme = Everforest Dark - Hard
+#theme = GruvboxDark
+#theme = gruvbox-material
+#theme = Horizon
+#theme = jubi
+#theme = Kanagawa Dragon
+theme = Kanagawa Wave
+#theme = nightfox
+#theme = nord-wave
+#theme = rose-pine
+#theme = Twilight
+theme = pywal
+
+# 🔤 fonts
+font-family = JetBrainsMono Nerd Font
+#font-family = EmojiOne Color
+#font-family = DaddyTimeMono Nerd Font
+#font-family = IosevkaTermSlab Nerd Font
+#font-family = IosevkaTerm Nerd Font
+#font-family = ProggyClean Nerd Font
+#font-family = ShureTechMono Nerd Font
+#font-family = GohuFont 11 Nerd Font # a bit more cramped
+#font-family = GohuFont 14 Nerd Font # thinner
+font-size = 10
+
+# 💻 terminal
+background-opacity = 0.90
+
+window-decoration = false
+#window-padding-x = 2,1
+#window-padding-y = 2,1
+cursor-opacity = 0.5
+unfocused-split-opacity = 0.60
+keybind = alt+shift+comma=reload_config
+
+# 🚀 keybindings
+keybind = alt+h=goto_split:left
+keybind = alt+j=goto_split:down
+keybind = alt+k=goto_split:up
+keybind = alt+l=goto_split:right
+
+keybind = alt+shift+h=new_split:left
+keybind = alt+shift+j=new_split:down
+keybind = alt+shift+k=new_split:up
+keybind = alt+shift+l=new_split:right
+
+keybind = alt+ctrl+shift+h=resize_split:left,30
+keybind = alt+ctrl+shift+j=resize_split:down,30
+keybind = alt+ctrl+shift+k=resize_split:up,30
+keybind = alt+ctrl+shift+l=resize_split:right,30
+
+keybind = alt+g=scroll_to_top
+keybind = alt+shift+g=scroll_to_bottom
+keybind = alt+u=scroll_page_up
+keybind = alt+d=scroll_page_down
+keybind = alt+ctrl+k=scroll_page_lines:-1
+keybind = alt+ctrl+j=scroll_page_lines:1
+keybind = alt+x=close_surface
+
+keybind = alt+a=select_all
+keybind = ctrl+shift+h=adjust_selection:left
+keybind = ctrl+shift+j=adjust_selection:down
+keybind = ctrl+shift+k=adjust_selection:up
+keybind = ctrl+shift+l=adjust_selection:right
+keybind = alt+y=copy_to_clipboard
+keybind = alt+p=paste_from_clipboard
+keybind = alt+s=clear_screen

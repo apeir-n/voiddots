@@ -1,0 +1,13 @@
+#[flavor]
+#dark = "everforest-medium"
+#dark = "ayu-dark"
+#dark = "flexoki-dark"
+#dark = "gruvbox-dark"
+#dark = "catppuccin-mocha"
+#dark = "tokyo-night"
+#dark = "kanagawa"
+#dark = "kanagawa-dragon"
+
+[status]
+sep_left = { open = " ", close = " " }
+sep_right = { open = " ", close = " " }

@@ -1,0 +1,87 @@
+wtf:
+
+  colors:
+    background: "none"
+    border:
+      focusable: "gray"
+      focused: "light_green"
+      normal: "light_blue"
+    checked: "light_red"
+    highlight:
+      fore: "red"
+      back: "green"
+    title: "yellow"
+  grid:
+    columns: [42, 32, 32, 32, 90]
+    rows: [8, 8, 8, 8, 8, 90]
+  refreshInterval: 1
+  mods:
+    
+    textfile:
+      enabled: true
+      title: "todo"
+      filePath: "~/Documents/obsidian_vault/terminaltown/denizen_todo.md"
+      wrapText: false
+      position:
+        top: 0
+        left: 0
+        height: 4
+        width: 1
+      refreshInterval: 1h
+
+    ipinfo:
+      enabled: true
+      title: "ip_info"
+      focusable: true
+      position:
+        top: 0
+        left: 1
+        height: 1
+        width: 2
+      refreshInterval: 150
+
+    security:
+      enabled: true
+      title: "security"
+      focusable: true
+      position:
+        top: 1
+        left: 1
+        height: 1
+        width: 1
+      refreshInterval: 3600
+
+    resourceusage:
+      enabled: true
+      title: "resources"
+      focusable: true
+      position:
+        top: 1
+        left: 2
+        height: 1
+        width: 1
+      refreshInterval: 1
+
+    disks: 
+      type: cmdrunner
+      enabled: true
+      cmd: "stormy"
+      #args: ["--compact"]
+      position:
+        top: 2
+        left: 1
+        height: 2
+        width: 2
+      refreshInterval: 3600
+
+#    disks:
+#      type: cmdrunner
+#      enabled: true
+#      cmd: "df"
+#      args: ["-h"]
+#      position:
+#        top: 2
+#        left: 1
+#        height: 2
+#        width: 2
+#      refreshInterval: 3600

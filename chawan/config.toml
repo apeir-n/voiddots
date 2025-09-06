@@ -1,0 +1,13 @@
+[buffer]
+images = true
+
+[display]
+image-mode = "kitty"
+
+[buffer]
+user-style = "@import 'chawan.css'"
+
+[page]
+'tj' = 'cmd.buffer.toggleScripting'
+'ti' = 'cmd.buffer.toggleImages'
+'tc' = 'cmd.buffer.toggleCookie'

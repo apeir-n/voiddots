@@ -1,0 +1,41 @@
+[[mgr.prepend_keymap]]
+on  = [ "c", "p" ]
+run = "copy dirname"
+desc = "copypath"
+
+[[mgr.prepend_keymap]]
+on  = [ "c", "d" ]
+run = "plugin zoxide"
+desc = "changedir"
+
+[[mgr.prepend_keymap]]
+on  = [ "g", "s" ]
+run = "cd ~/scripts"
+desc = "go_scripts"
+
+[[mgr.prepend_keymap]]
+on  = [ "g", "o" ]
+run = "cd ~/Documents/obsidian_vault"
+desc = "go_obsidianvault"
+
+[[mgr.prepend_keymap]]
+on  = [ "g", "l" ]
+run = "cd ~/.local"
+desc = "go_.local"
+
+[[mgr.prepend_keymap]]
+on  = [ "g", "w" ]
+run = "cd ~/Pictures/wallpapers"
+desc = "go_wallpapers"
+
+[[mgr.prepend_keymap]]
+on  = [ "g", "p" ]
+run = "cd ~/.cache/wal"
+desc = "go_walclrs"
+
+[[mgr.prepend_keymap]]
+on = "w"
+run = '''
+shell '~/scripts/paperplane "$1"' -- $1
+'''
+desc = "wallpaper_set"
