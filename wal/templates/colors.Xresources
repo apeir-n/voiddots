@@ -1,0 +1,70 @@
+*.foreground:                   {color7}
+*.background:                   {color0}
+*.color0:                       {color0}
+*.color1:                       {color1}
+*.color2:                       {color2}
+*.color3:                       {color3}
+*.color4:                       {color4}
+*.color5:                       {color5}
+*.color6:                       {color6}
+*.color7:                       {color7}
+*.color8:                       {color8}
+*.color9:                       {color9}
+*.color10:                      {color10}
+*.color11:                      {color11}
+*.color12:                      {color12}
+*.color13:                      {color13}
+*.color14:                      {color14}
+*.color15:                      {color15}
+
+dwm.normbgcolor:                {color0}
+dwm.normfgcolor:                {color7}
+dwm.normbordercolor:            {color1}
+dwm.selbgcolor:                 {color8}
+dwm.selfgcolor:                 {color15}
+dwm.selbordercolor:             {color14}
+
+dmenu.background:               {color0}
+dmenu.foreground:               {color7}
+dmenu.selbackground:            {color1}
+dmenu.selforeground:            {color15}
+
+st.color0:                      {color0}
+st.color1:                      {color1}
+st.color2:                      {color2}
+st.color3:                      {color3}
+st.color4:                      {color4}
+st.color5:                      {color5}
+st.color6:                      {color6}
+st.color7:                      {color7}
+st.color8:                      {color8}
+st.color9:                      {color9}
+st.color10:                     {color10}
+st.color11:                     {color11}
+st.color12:                     {color12}
+st.color13:                     {color13}
+st.color14:                     {color14}
+st.color15:                     {color15}
+st.background:                  {color0}
+st.foreground:                  {color15}
+st.cursorColor:                 {color15}
+
+tabbed.normbgcolor:             {color0}
+tabbed.normfgcolor:             {color7}
+tabbed.selbgcolor:              {color1}
+tabbed.selfgcolor:              {color15}
+
+herbe.background_color:         {color8}
+herbe.border_color:             {color14}
+herbe.font_color:               {color15}
+
+Nsxiv.window.background:        {color8}
+Nsxiv.window.foreground:        {color15}
+Nsxiv.bar.background:           {color0}
+Nsxiv.bar.foreground:           {color7}
+
+Clock*Background:               {color8}
+Clock*BorderColor:              {color13}
+Clock*hour:                     {color10}
+Clock*jewel:                    {color12}
+Clock*minute:                   {color14}

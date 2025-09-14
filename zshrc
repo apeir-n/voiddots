@@ -76,6 +76,8 @@ alias svfailed="doas sv status /var/service/* | grep -v run"
 alias brighter="xrandr --output eDP-1 --brightness 1.6"
 alias brightoff="xrandr --output eDP-1 --brightness 1.0"
 alias src="cd ~/.local/share/void-packages"
+alias cr="cargo run"
+alias rs="cd ~/.local/projects/rust/eg && y"
 
 #etc
 source <(fzf --zsh)
@@ -100,25 +102,15 @@ function y() {
 	rm -f -- "$tmp"
 }
 
-function batman() {
-    local cmd
-    cmd=$(man "$@" | col -bx 2>/dev/null)
-    if [[ -n "$cmd" ]]; then
-        echo "$cmd" | bat --language=man --paging=always
-    else
-        echo "Uh oh! That man page doesn't exist, kiddo! 🙈❌"
-    fi
-}
-
 function woman() {
     bat $XDG_DATA_HOME/man/man1/$@.md
 }
 
-reload-zshrc() {
-    source ~/.zshrc
-}
-zle -N reload-zshrc
-bindkey '^B' reload-zshrc
+#reload-zshrc() {
+#    source ~/.zshrc
+#}
+#zle -N reload-zshrc
+#bindkey '^B' reload-zshrc
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
 ZSH_HIGHLIGHT_STYLES[default]="fg=white"

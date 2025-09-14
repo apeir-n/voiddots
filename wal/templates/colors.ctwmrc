@@ -1,0 +1,249 @@
+# Misc flags
+DontShowWelcomeWindow
+NoGrabServer
+RestartPreviousState
+DecorateTransients
+DontMoveOff
+RandomPlacement
+NoOpaqueResize
+IconifyByUnmapping
+MoveDelta 5
+NoSortIconManager
+AutoFocusToTransients
+StayUpMenus
+NoShowOccupyAll
+StartInButtonState
+
+UseThreeDMenus
+UseThreeDTitles
+UseThreeDIconManagers
+UseThreeDBorders
+UseThreeDWMap
+SunkFocusWindowTitle
+TitleJustification center
+
+# Fonts
+TitleFont       "-*-terminus-medium-r-normal-*-14-*-*-*-*-*-*-*"
+ResizeFont      "-*-terminus-medium-r-normal-*-14-*-*-*-*-*-*-*"
+MenuFont        "-*-terminus-medium-r-normal-*-14-*-*-*-*-*-*-*"
+IconFont        "-*-terminus-bold-r-normal-*-12-*-*-*-*-*-*-*"
+IconManagerFont "-*-terminus-bold-r-normal-*-12-*-*-*-*-*-*-*"
+
+# Custom colours
+Color {{
+  TitleBackground       "{color8}"
+  TitleForeground       "{color15}"
+  BorderColor           "{color13}"
+  BorderTileBackground  "{color8}"
+  BorderTileForeground  "{color7}"
+
+  MenuBackground        "{color8}"
+  MenuForeground        "{color15}"
+  MenuTitleBackground   "{color1}"
+  MenuTitleForeground   "{color15}"
+
+  IconManagerBackground "{color7}"
+  IconManagerForeground "{color0}"
+}}
+#dwm.normbgcolor:                {color0}
+#dwm.normfgcolor:                {color7}
+#dwm.normbordercolor:            {color1}
+#dwm.selbgcolor:                 {color8}
+#dwm.selfgcolor:                 {color15}
+#dwm.selbordercolor:             {color14}
+
+WorkSpaces
+{{
+    "1" {{"{color1}" "{color9}" "{color0}" "{color15}"}}
+    "2" {{"{color2}" "{color10}" "{color0}" "{color15}"}}
+    "3" {{"{color3}" "{color11}" "{color0}" "{color15}"}}
+    "4" {{"{color4}" "{color12}" "{color0}" "{color15}"}}
+    "5" {{"{color5}" "{color13}" "{color0}" "{color15}"}}
+    "6" {{"{color6}" "{color14}" "{color0}" "{color15}"}}
+}}
+
+# Handle Window ring
+WindowRing
+WindowRingExclude {{
+    "xload"
+    "xclock"
+    "oclock"
+    "WorkSpaceManager"
+}}
+
+AlwaysOnTop {{
+    "WorkSpaceManager"
+    "IconManager"
+    "oclock"
+    "xclock"
+    "xeyes"
+}}
+
+OccupyAll {{
+    "WorkSpaceManager"
+    "IconManager"
+    "oclock"
+    "xclock"
+    "xeyes"
+}}
+
+# Set custom cursors
+Cursors {{
+    Frame       "left_ptr"
+    Title       "left_ptr"
+    Icon        "left_ptr"
+    IconMgr     "hand2"
+    Move        "fleur"
+    Resize      "iron_cross"
+    Menu        "sb_left_arrow"
+    Button      "hand2"
+    Wait        "watch"
+    Select      "dot"
+    Destroy     "pirate"
+}}
+
+ShowWorkspaceManager
+WorkSpaceManagerGeometry "360x30+0+0" 6
+
+ShowIconManager18
+IconManagerGeometry "120-0+42"
+IconManagerDontShow {{
+    "sysinf2"
+    "oclock"
+    "xclock"
+    "xload"
+    "xeyes"
+}}
+
+NoTitle {{
+    "TWM Icon Manager"
+    "WorkSpaceManager"
+    "xload"
+    "oclock"
+    "xclock"
+    "sysinf2"
+    "xeyes"
+}}
+
+# Custom functions
+Function "move-and-raise" {{
+    f.move
+    f.deltastop
+    f.raise
+}}
+Function "deiconify-and-raise" {{
+    f.deiconify
+    f.raise
+}}
+Function "next-and-raise" {{
+    f.downiconmgr
+    f.raise
+}}
+
+NoDefaults
+Pixmaps {{
+  TitleHighlight ".config/twmtitle4.xbm"
+}}
+#   :dot, :xlogo, :iconify, :resize, :question, :delete, :menu
+LeftTitleButton  ":xpm:sunkresize"  = f.menu "winmops"
+RightTitleButton ":xpm:dot"         = f.iconify
+RightTitleButton ":xpm:box"         = f.zoom
+RightTitleButton ":xpm:resize"      = f.resize
+
+# mouse
+Button3 = : root : f.menu "defops"
+Button1 = : root : f.menu "apps"
+Button2 = : root : f.menu "TwmWindows"
+
+Button1 = : title : f.function "move-and-raise"
+Button2 = : title : f.iconify
+Button3 = : title : f.raiselower
+
+Button1 = : frame : f.function "move-and-raise"
+Button2 = : frame : f.resize
+Button3 = : frame : f.raiselower
+
+Button1 = : iconmgr : f.function "deiconify-and-raise"
+Button2 = : iconmgr : f.lower
+Button3 = : iconmgr : f.iconify
+
+# Keyboard Bindings
+"F1"    = m4    : all : f.fullzoom
+"F2"    = m4    : all : f.zoom
+"Tab"   = m     : all : f.warpring "next"
+"Tab"   = m|s   : all : f.warpring "prev"
+"j"     = m4    : all : f.nexticonmgr
+"k"     = m4    : all : f.previconmgr
+"q"     = m4|s  : all : f.quit
+"q"     = m4    : all : f.deleteordestroy
+"1"     = m4    : all : f.gotoworkspace "1"
+"2"     = m4    : all : f.gotoworkspace "2"
+"3"     = m4    : all : f.gotoworkspace "3"
+"4"     = m4    : all : f.gotoworkspace "4"
+"5"     = m4    : all : f.gotoworkspace "5"
+"6"     = m4    : all : f.gotoworkspace "6"
+"space" = m4    : all : f.exec "dmenu_run -fn 'Terminus:size=12' -bw 3"
+"space" = m     : all : f.exec "/home/ch_rism_/scripts/paperfold"
+
+Button1 = m4 : window : f.forcemove
+Button3 = m4 : window : f.raiselower
+Button2 = m4 : window : f.resize
+
+menu "winmops"
+{{
+  "iconify" f.iconify
+  "close"   f.delete
+}}
+
+# right click
+menu "defops"
+{{
+  "system"     f.title
+  "resize"     f.resize
+  "move"       f.move
+  ""           f.nop
+  "kill"       f.destroy
+  "delete"     f.delete
+  ""           f.nop
+  "syslog"     f.exec "xterm -fn 7x14 -geometry 130x40 -cr blue -bg white -fg darkslategray -title syslog -e tail -f /var/log/syslog &"
+  "systemp"    f.exec "psensor &"
+  ""           f.nop
+  "sleep"      f.menu "asksleep"
+  "lock"       f.exec "dm-tool lock &"
+  ""           f.nop
+  "restart"    f.restart
+  "exit"       f.menu "askexit"
+}}
+
+menu "asksleep"
+{{
+  "sleep?" f.title
+  "no"     f.nop
+  "yes"    f.exec "systemctl suspend"
+}}
+
+menu "askexit"
+{{
+  "exit?" f.title
+  "no"    f.nop
+  "yes"   f.quit
+}}
+
+# left click
+menu "apps"
+{{
+    "workspace"     f.title
+    "alacritty"     f.exec "alacritty &"
+    "xterm"         f.exec "xterm &"
+    #"xterm"         f.exec "xterm -fn -misc-fixed-medium-r-*-*-18-*-*-*-*-*-iso10646-1 &"
+    ""              f.nop
+    "qutebrowser"   f.exec "qutebrowser &"
+    #"chawan"        f.exec "cha google.com &"
+    "tubeshell"     f.exec "xterm -fn 7x14 -geometry 90x26 -title tube -e tubeshell &"
+    "slack-term"    f.exec "xterm -fn 7x14 -geometry 177x58 -title slack-term -e slack-term &"
+    "wordgrinder"   f.exec "xterm -title wordgrinder -geometry 80x36 -fn 10x20 -bg gainsboro -fg slategray -e 'cd $HOME/docs; wordgrinder' &"
+    ""              f.nop
+    "volume mixer"  f.exec "xterm -e alsamixer --device pulse &"
+    "audio panel"   f.exec "pavucontrol &"
+    "btop"          f.exec "xterm -e btop &"
+}}
