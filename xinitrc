@@ -17,3 +17,4 @@ exec dwm
 #exec twm
 #exec fvwm3
 #exec ctwm
+#exec cwm

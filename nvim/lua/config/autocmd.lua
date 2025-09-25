@@ -54,6 +54,14 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 end,
 })
 
+--md_syntax_highlight
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "markdown",
+    callback = function()
+        vim.treesitter.start()
+    end,
+})
+
 ----noconceal
 ----uncomment if conceallevel != 0
 --vim.api.nvim_create_autocmd("FileType", {

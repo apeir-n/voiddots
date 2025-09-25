@@ -31,7 +31,7 @@ local options = {
     smartcase = true,
     conceallevel = 0,
     concealcursor = "nc",
-    splitkeep = 'screen',
+    splitkeep = "screen",
 }
 
 for k, v in pairs(options) do

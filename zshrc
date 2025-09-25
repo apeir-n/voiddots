@@ -70,14 +70,14 @@ alias colors="cat ~/.cache/wal/colors | pastel format"
 alias xb="doas xbps-install"
 alias xr="doas xbps-remove"
 alias xq="xbps-query"
-alias xc="xbps-candy"
+alias xs="xbps-slay"
 alias xini="nvim $HOME/.xinitrc"
 alias svfailed="doas sv status /var/service/* | grep -v run"
 alias brighter="xrandr --output eDP-1 --brightness 1.6"
 alias brightoff="xrandr --output eDP-1 --brightness 1.0"
 alias src="cd ~/.local/share/void-packages"
 alias cr="cargo run"
-alias rs="cd ~/.local/projects/rust/eg && y"
+alias rs="cd ~/.local/projects/rust && y"
 
 #etc
 source <(fzf --zsh)
