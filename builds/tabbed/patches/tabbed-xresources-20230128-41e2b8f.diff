@@ -1,0 +1,227 @@
+From 46115eedb8ba1da17ea6fb76eb9ffba806faa828 Mon Sep 17 00:00:00 2001
+From: Casey Fitzpatrick <kcghost@gmail.com>
+Date: Sat, 28 Jan 2023 10:13:45 -0500
+Subject: [PATCH] xresources support
+
+Rename foreground to focusnew to avoid conflict with common usage in Xresources
+---
+ config.def.h | 51 +++++++++++++++++++++++++-----------
+ tabbed.c     | 73 ++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 107 insertions(+), 17 deletions(-)
+
+diff --git a/config.def.h b/config.def.h
+index 51bb13d..76059d3 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -1,27 +1,27 @@
+ /* See LICENSE file for copyright and license details. */
+ 
+ /* appearance */
+-static const char font[]        = "monospace:size=9";
+-static const char* normbgcolor  = "#222222";
+-static const char* normfgcolor  = "#cccccc";
+-static const char* selbgcolor   = "#555555";
+-static const char* selfgcolor   = "#ffffff";
+-static const char* urgbgcolor   = "#111111";
+-static const char* urgfgcolor   = "#cc0000";
+-static const char before[]      = "<";
+-static const char after[]       = ">";
+-static const char titletrim[]   = "...";
+-static const int  tabwidth      = 200;
+-static const Bool foreground    = True;
+-static       Bool urgentswitch  = False;
++static char* font         = "monospace:size=9";
++static char* normbgcolor  = "#222222";
++static char* normfgcolor  = "#cccccc";
++static char* selbgcolor   = "#555555";
++static char* selfgcolor   = "#ffffff";
++static char* urgbgcolor   = "#111111";
++static char* urgfgcolor   = "#cc0000";
++static char* before       = "<";
++static char* after        = ">";
++static char* titletrim    = "...";
++static int tabwidth       = 200;
++static int focusnew       = 1;
++static int urgentswitch   = 0;
+ 
+ /*
+  * Where to place a new tab when it is opened. When npisrelative is True,
+  * then the current position is changed + newposition. If npisrelative
+  * is False, then newposition is an absolute position.
+  */
+-static int  newposition   = 0;
+-static Bool npisrelative  = False;
++static int newposition   = 0;
++static int npisrelative  = 0;
+ 
+ #define SETPROP(p) { \
+         .v = (char *[]){ "/bin/sh", "-c", \
+@@ -33,6 +33,27 @@ static Bool npisrelative  = False;
+         } \
+ }
+ 
++/*
++ * Xresources preferences to load at startup
++ */
++ResourcePref resources[] = {
++	{ "font",         STRING,  &font},
++	{ "normbgcolor",  STRING,  &normbgcolor},
++	{ "normfgcolor",  STRING,  &normfgcolor},
++	{ "selbgcolor",   STRING,  &selbgcolor},
++	{ "selfgcolor",   STRING,  &selfgcolor},
++	{ "urgbgcolor",   STRING,  &urgbgcolor},
++	{ "urgfgcolor",   STRING,  &urgfgcolor},
++	{ "before",       STRING,  &before},
++	{ "after",        STRING,  &after},
++	{ "titletrim",    STRING,  &titletrim},
++	{ "tabwidth",     INTEGER, &tabwidth},
++	{ "focusnew",     INTEGER, &focusnew},
++	{ "urgentswitch", INTEGER, &urgentswitch},
++	{ "newposition",  INTEGER, &newposition},
++	{ "npisrelative", INTEGER, &npisrelative},
++};
++
+ #define MODKEY ControlMask
+ static const Key keys[] = {
+ 	/* modifier             key        function     argument */
+diff --git a/tabbed.c b/tabbed.c
+index eafe28a..6ca3454 100644
+--- a/tabbed.c
++++ b/tabbed.c
+@@ -13,6 +13,7 @@
+ #include <X11/Xatom.h>
+ #include <X11/Xlib.h>
+ #include <X11/Xproto.h>
++#include <X11/Xresource.h>
+ #include <X11/Xutil.h>
+ #include <X11/XKBlib.h>
+ #include <X11/Xft/Xft.h>
+@@ -85,11 +86,26 @@ typedef struct {
+ 	Bool urgent;
+ 	Bool closed;
+ } Client;
++ 
++/* Xresources preferences */
++enum resource_type {
++	STRING = 0,
++	INTEGER = 1,
++	FLOAT = 2
++};
++
++typedef struct {
++	char *name;
++	enum resource_type type;
++	void *dst;
++} ResourcePref;
++ 
+ 
+ /* function declarations */
+ static void buttonpress(const XEvent *e);
+ static void cleanup(void);
+ static void clientmessage(const XEvent *e);
++static void config_init(void);
+ static void configurenotify(const XEvent *e);
+ static void configurerequest(const XEvent *e);
+ static void createnotify(const XEvent *e);
+@@ -120,6 +136,7 @@ static void move(const Arg *arg);
+ static void movetab(const Arg *arg);
+ static void propertynotify(const XEvent *e);
+ static void resize(int c, int w, int h);
++static int resource_load(XrmDatabase db, char *name, enum resource_type rtype, void *dst);
+ static void rotate(const Arg *arg);
+ static void run(void);
+ static void sendxembed(int c, long msg, long detail, long d1, long d2);
+@@ -245,6 +262,23 @@ clientmessage(const XEvent *e)
+ 	}
+ }
+ 
++void
++config_init(void)
++{
++	char *resm;
++	XrmDatabase db;
++	ResourcePref *p;
++
++	XrmInitialize();
++	resm = XResourceManagerString(dpy);
++	if (!resm)
++		return;
++
++	db = XrmGetStringDatabase(resm);
++	for (p = resources; p < resources + LENGTH(resources); p++)
++		resource_load(db, p->name, p->type, p->dst);
++}
++
+ void
+ configurenotify(const XEvent *e)
+ {
+@@ -771,7 +805,7 @@ manage(Window w)
+ 		focus(nextfocus ? nextpos :
+ 		      sel < 0 ? 0 :
+ 		      sel);
+-		nextfocus = foreground;
++		nextfocus = focusnew;
+ 	}
+ }
+ 
+@@ -897,6 +931,40 @@ resize(int c, int w, int h)
+ 	           (XEvent *)&ce);
+ }
+ 
++int
++resource_load(XrmDatabase db, char *name, enum resource_type rtype, void *dst)
++{
++	char **sdst = dst;
++	int *idst = dst;
++	float *fdst = dst;
++
++	char fullname[256];
++	char fullclass[256];
++	char *type;
++	XrmValue ret;
++
++	snprintf(fullname, sizeof(fullname), "%s.%s", "tabbed", name);
++	snprintf(fullclass, sizeof(fullclass), "%s.%s", "tabbed", name);
++	fullname[sizeof(fullname) - 1] = fullclass[sizeof(fullclass) - 1] = '\0';
++
++	XrmGetResource(db, fullname, fullclass, &type, &ret);
++	if (ret.addr == NULL || strncmp("String", type, 64))
++		return 1;
++
++	switch (rtype) {
++	case STRING:
++		*sdst = ret.addr;
++		break;
++	case INTEGER:
++		*idst = strtoul(ret.addr, NULL, 10);
++		break;
++	case FLOAT:
++		*fdst = strtof(ret.addr, NULL);
++		break;
++	}
++	return 0;
++}
++
+ void
+ rotate(const Arg *arg)
+ {
+@@ -1074,7 +1142,7 @@ setup(void)
+ 	snprintf(winid, sizeof(winid), "%lu", win);
+ 	setenv("XEMBED", winid, 1);
+ 
+-	nextfocus = foreground;
++	nextfocus = focusnew;
+ 	focus(-1);
+ }
+ 
+@@ -1354,6 +1422,7 @@ main(int argc, char *argv[])
+ 	if (!(dpy = XOpenDisplay(NULL)))
+ 		die("%s: cannot open display\n", argv0);
+ 
++	config_init();
+ 	setup();
+ 	printf("0x%lx\n", win);
+ 	fflush(NULL);
+-- 
+2.25.1
+

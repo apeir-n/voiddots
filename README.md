@@ -1,7 +1,8 @@
-_most of my main tools are configured via source code_
-- _dwm, dmenu, herbe, nsxiv, etc_
-_need to figure out a good way to push them to remote repo_
-_i'd rather not make a repo for each directory, but theyre already all initialized as local git repos_
+# dots
+
+dotfiles for void linux. programs configured via source code and compilation are in `builds/` directory.
+
+### info
 
 home dots
 - zsh and xinit rc files are symlinked to `$HOME` and renamed

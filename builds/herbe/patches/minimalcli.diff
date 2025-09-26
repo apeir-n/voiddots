@@ -1,0 +1,134 @@
+diff --git a/Makefile b/Makefile
+index 3225e36..cf7f609 100644
+--- a/Makefile
++++ b/Makefile
+@@ -8,7 +8,7 @@ all: herbe
+ config.h: config.def.h
+ 	cp config.def.h config.h
+ 
+-herbe: herbe.c config.h
++herbe: herbe.c herbe.h config.h
+ 	$(CC) herbe.c $(CFLAGS) -o herbe
+ 
+ install: herbe
+diff --git a/herbe.c b/herbe.c
+index 51d3990..533f1ae 100644
+--- a/herbe.c
++++ b/herbe.c
+@@ -10,15 +10,35 @@
+ #include <semaphore.h>
+ 
+ #include "config.h"
+-
+-#define EXIT_ACTION 0
+-#define EXIT_FAIL 1
+-#define EXIT_DISMISS 2
++#include "herbe.h"
+ 
+ Display *display;
+ Window window;
+ int exit_code = EXIT_DISMISS;
+ 
++const char herbe_usage_string[] =
++    "herbe [-v] [-h] <body>\n"
++    "            -h           This help text\n"
++    "            -v           Prints current version";
++
++static void print_version(void)
++{
++    printf("herbe v%s\n", VERSION_STRING);
++}
++
++static void print_help(void)
++{
++    print_version();
++    printf("Usage: %s\n\n", herbe_usage_string);
++    exit(0);
++}
++
++static void usage(const char *err)
++{
++  fprintf(stderr, "Usage: %s\n", err);
++  exit(EXIT_FAIL);
++}
++
+ static void die(const char *format, ...)
+ {
+ 	va_list ap;
+@@ -29,6 +49,33 @@ static void die(const char *format, ...)
+ 	exit(EXIT_FAIL);
+ }
+ 
++static int handle_options(const char ***argv, int *argc)
++{
++    const char **orig_argv = *argv;
++
++    while (*argc > 0) {
++        const char *cmd = (*argv)[0];
++        if (cmd[0] != '-')
++            break;
++
++        if (!strcmp(cmd, "-h")) {
++            print_help();
++        }
++        else if (!strcmp(cmd, "-v")) {
++            print_version();
++            exit(0);
++        }
++        else {
++            fprintf(stderr, "Unknown option: %s\n", cmd);
++            usage(herbe_usage_string);
++        }
++
++        (*argv)++;
++        (*argc)--;
++    }
++    return (*argv) - orig_argv;
++}
++
+ int get_max_len(char *string, XftFont *font, int max_text_width)
+ {
+ 	int eol = strlen(string);
+@@ -81,12 +128,18 @@ void expire(int sig)
+ 
+ int main(int argc, char *argv[])
+ {
++	const char **av = (const char **) argv;
++
+ 	if (argc == 1)
+ 	{
+ 		sem_unlink("/herbe");
+-		die("Usage: %s body", argv[0]);
++		usage(herbe_usage_string);
+ 	}
+ 
++	/* Look for flags.. */
++    av++;
++    handle_options(&av, &argc);
++
+ 	struct sigaction act_expire, act_ignore;
+ 
+ 	act_expire.sa_handler = expire;
+@@ -217,4 +270,4 @@ int main(int argc, char *argv[])
+ 	XCloseDisplay(display);
+ 
+ 	return exit_code;
+-}
+\ No newline at end of file
++}
+diff --git a/herbe.h b/herbe.h
+new file mode 100644
+index 0000000..65e07cb
+--- /dev/null
++++ b/herbe.h
+@@ -0,0 +1,10 @@
++#ifndef HERBE_H
++#define HERBE_H
++
++#define VERSION_STRING "1.0.0"
++
++#define EXIT_ACTION 0
++#define EXIT_FAIL 1
++#define EXIT_DISMISS 2
++
++#endif /* HERBE_H */

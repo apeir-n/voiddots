@@ -134,6 +134,13 @@ ZSH_HIGHLIGHT_STYLES[bracket-level-4]="fg=magenta"
 #NEWLINE=$'\n'
 #PROMPT="${NEWLINE}%K{${color1}}%F{${foreground}} %D{%_I:%M%P} %K{${color3}} %n %K{${color5}} %~ %f%k ❯ "
 # %3~ expands to tailing 3 dirs in cwd
+#   ❯ 󰧚
+
+#NEWLINE=$'\n'
+#PROMPT="${NEWLINE}%K{1}%F{15} %D{%I:%M} %K{3} %n %K{5} %~ %f%k ❯ "
 
 NEWLINE=$'\n'
-PROMPT="${NEWLINE}%K{1}%F{15} %D{%_I:%M%P} %K{3} %n %K{5} %~ %f%k ❯ "
+PROMPT="${NEWLINE}%K{1}%F{15} %D{%I:%M} %K{3} %n %K{4} %m %K{5} %~ %f%k ❯ "
+
+#NL=$'\n'
+#PROMPT="${NL}%F{5}%f%K{5}%~%k%F{5}%f ${NL}%K{1}%F{15} %D{%I:%M} %K{3} %n %f%k ❯ "
