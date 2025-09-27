@@ -63,6 +63,7 @@ Plug('williamboman/mason.nvim')
 Plug('williamboman/mason-lspconfig.nvim')
 --Plug('davidgranstrom/scnvim')
 --Plug('robbielyman/tidal.nvim')
+Plug('mrcjkb/rustaceanvim')
 
 vim.call('plug#end')
 
@@ -94,4 +95,4 @@ require("plugins.yazi")
 require("plugins.flash")
 require("plugins.cinnamon")
 require("mini.surround").setup({})
---require("plugins.mason")
+require("plugins.mason")
