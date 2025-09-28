@@ -22,6 +22,7 @@ setopt NO_HIST_REDUCE_BLANKS
 setopt AUTO_CD
 setopt INTERACTIVE_COMMENTS
 setopt EXTENDEDGLOB
+setopt PROMPT_SUBST
 autoload -Uz compinit && compinit
 autoload -Uz tetriscurses
 zstyle ':completion:*' menu select
@@ -139,8 +140,32 @@ ZSH_HIGHLIGHT_STYLES[bracket-level-4]="fg=magenta"
 #NEWLINE=$'\n'
 #PROMPT="${NEWLINE}%K{1}%F{15} %D{%I:%M} %K{3} %n %K{5} %~ %f%k ❯ "
 
-NEWLINE=$'\n'
-PROMPT="${NEWLINE}%K{1}%F{15} %D{%I:%M} %K{3} %n %K{4} %m %K{5} %~ %f%k ❯ "
+#NEWLINE=$'\n'
+#PROMPT="${NEWLINE}%K{1}%F{15} %D{%I:%M} %K{3} %n %K{4} %m %K{5} %~ %f%k ❯ "
 
-#NL=$'\n'
-#PROMPT="${NL}%F{5}%f%K{5}%~%k%F{5}%f ${NL}%K{1}%F{15} %D{%I:%M} %K{3} %n %f%k ❯ "
+#function promptina() {
+#    # 
+#    local nl=$'\n'
+#    local os="%F{9}%f%K{9}%F{0} %k%F{9}%f"
+#    local clk="%F{10}%f%K{10}%F{0}%D{%I:%M%p}%k%F{10}%f"
+#    local dir="%F{11}%f%K{11}%F{0}%~%k%F{11}%f"
+#    local me="%F{13}%f%K{13}%F{0}%n%k%F{13}%f"
+#    echo "${nl}${os} ${clk} ${dir} ${nl}${me} %F{7}❯%f "
+#}
+
+function promptoid() {
+    echo "%F{${1}}%f%K{${1}}%F{${2}}${3}%k%F{${1}}%f"
+}
+
+function promptina() {
+    # 
+    local nl=$'\n'
+    local os=$(promptoid 9 0 "")
+    local me=$(promptoid 11 0 "%n")
+    local zsh=$(promptoid 12 0 "  zsh")
+    local ram=$(promptoid 13 0 "  $(free | awk '/Mem/ { printf("%.0f%%%\n", $3/$2 * 100) }')")
+    local mer=$(date '+%p' | tr '[:upper:]' '[:lower:]')
+    echo "${nl}${os} ${me} ${zsh} ${ram} ${nl}%F{7}╭─    %D{%I:%M}${mer} | %~${nl}╰─%f "
+}
+
+PROMPT="$(promptina)"
