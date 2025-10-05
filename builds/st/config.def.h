@@ -1,6 +1,11 @@
 /* See LICENSE file for copyright and license details. */
 
-static char *font = "JetBrainsMono Nerd Font:pixelsize=14:antialias=true:autohint=true";
+static char *font = "monospace:pixelsize=14:antialias=true:autohint=true";
+static char *font2[] = {
+    "Noto Color Emoji:pixelsize=15:antialias=true:autohint=true",
+    "JetBrainsMono Nerd Font Mono:pixelsize=14:antialias=true:autohint=true",
+};
+
 static int borderpx = 2;
 
 /*
@@ -63,6 +68,18 @@ static unsigned int blinktimeout = 600;
 static unsigned int cursorthickness = 2;
 
 /*
+ * 1: render most of the lines/blocks characters without using the font for
+ *    perfect alignment between cells (U2500 - U259F except dashes/diagonals).
+ *    Bold affects lines thickness if boxdraw_bold is not 0. Italic is ignored.
+ * 0: disable (render all U25XX glyphs normally from the font).
+ */
+const int boxdraw = 1;
+const int boxdraw_bold = 0;
+
+/* braille (U28XX):  1: render as adjacent "pixels",  0: use font */
+const int boxdraw_braille = 1;
+
+/*
  * bell volume. It must be a value between -100 and 100. Use 0 for disabling
  * it
  */
@@ -89,7 +106,8 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 0.60;
+/* float alpha = 0.90; */
+float alpha = 1.0;
 
 /* Background opacity */
 float alpha_def;
@@ -251,6 +269,9 @@ static Shortcut shortcuts[] = {
 	{ MODKEY,               XK_p,               clippaste,      {.i =  0} },
 	{ MODKEY,               XK_k,               kscrollup,      {.i =  1} },
 	{ MODKEY,               XK_j,               kscrolldown,    {.i =  1} },
+	{ MODKEY,               XK_equal,           zoom,           {.f = +1} },
+	{ MODKEY,               XK_minus,           zoom,           {.f = -1} },
+	{ MODKEY,               XK_0,               zoomreset,      {.f =  0} },
 	{ MODKEY,               XK_bracketleft,     chgalpha,       {.f = -1} },
 	{ MODKEY,               XK_bracketright,    chgalpha,       {.f = +1} },
 	{ MODKEY,               XK_backslash,       chgalpha,       {.f =  0} },

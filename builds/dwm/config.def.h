@@ -11,8 +11,8 @@ static       int smartgaps          = 0;        /* 1 means no outer gap when the
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 6;        /* 2 is the default spacing around the bar's font */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=10" };
-static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=10";
+static const char *fonts[]          = { "monospace:size=10" };
+static const char dmenufont[]       = "monospace:size=10";
 static char normbgcolor[]           = "#18182f";
 static char normbordercolor[]       = "#483b4b";
 static char normfgcolor[]           = "#c399a8";
@@ -30,12 +30,13 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6" };
 
 static const Rule rules[] = {
     /* class            instance    title       tags mask     isfloating   monitor */
-    { "St",             NULL,       NULL,       0,            1,           -1 },
+    /* { "St",             NULL,       NULL,       0,            1,           -1 }, */
+    { "XTerm",          NULL,       NULL,       0,            1,           -1 },
     { "Nsxiv",          NULL,       NULL,       0,            1,           -1 },
     { "Firefox",        NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
-/* layout(s) */
+/* layout */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
@@ -46,7 +47,7 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 
 static const Layout layouts[] = {
     /* symbol     arrange function */
-    { "[]=",      tile },                       /* 00 - first entry is default */
+    { "[]=",      tile },                       /* 00 */    /* first entry = default */
     { "[@]",      spiral },                     /* 01 */
     { "[=]",      dwindle },                    /* 02 */
     { "]M[",      centeredmaster },             /* 03 */
@@ -56,7 +57,7 @@ static const Layout layouts[] = {
     { "---",      horizgrid },                  /* 07 */
     { ":::",      gaplessgrid },                /* 08 */
     { "[M]",      monocle },                    /* 09 */
-    { "><>",      NULL },                       /* 10 - no layout function means floating behavior */
+    { "><>",      NULL },                       /* 10 */    /* no layout function = floating */
     { NULL,       NULL },
 };
 
@@ -79,6 +80,8 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", normbordercolor, "-sf", selfgcolor, "-bw", "3", NULL };
 static const char *termcmd[]  = { "ghostty", NULL };
+static const char *stcmd[]  = { "st", NULL };
+static const char *alacmd[]  = { "alacritty", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "96x24", NULL };
 static const char *maim[] = { "/home/ch_rism_/scripts/maim_slop", "full", NULL };
@@ -89,19 +92,22 @@ static const char *paperfold[] = { "/home/ch_rism_/scripts/paperfold", NULL };
 static const Key keys[] = {
     /* modifier             key                 function        argument */
     { WIN,                  XK_space,           spawn,          {.v = dmenucmd } },
-    { WIN,                  XK_Return,          spawn,          {.v = termcmd } },
+    { WIN,                  XK_Return,          spawn,          {.v = stcmd } },        /* st        */
+    { WIN,                  XK_apostrophe,      spawn,          {.v = termcmd } },      /* ghostty   */
+    { WIN,                  XK_g,               spawn,          {.v = termcmd } },      /* ghostty   */
+    { WIN,                  XK_a,               spawn,          {.v = alacmd } },       /* alacritty */
     { WIN|SHFT,             XK_semicolon,       togglescratch,  {.v = scratchpadcmd } },
-    { ALT|SHFT,             XK_3,               spawn,          {.v = maim } },         /* screenshot full      */ 
-    { ALT|SHFT,             XK_4,               spawn,          {.v = maimslop } },     /* screenshot geometry  */
-    { ALT|SHFT,             XK_space,           spawn,          {.v = paper } },        /* wallpaper random     */
-    { ALT,                  XK_space,           spawn,          {.v = paperfold } },    /* wallpaper menu       */
+    { ALT|SHFT,             XK_3,               spawn,          {.v = maim } },         /* screenshot full     */ 
+    { ALT|SHFT,             XK_4,               spawn,          {.v = maimslop } },     /* screenshot geometry */
+    { ALT|SHFT,             XK_space,           spawn,          {.v = paper } },        /* wallpaper random    */
+    { ALT,                  XK_space,           spawn,          {.v = paperfold } },    /* wallpaper menu      */
     { WIN,                  XK_b,               togglebar,      {0} },
     { WIN,                  XK_bracketleft,     focusstack,     {.i = +1 } },
     { WIN,                  XK_bracketright,    focusstack,     {.i = -1 } },
-    { WIN,                  XK_h,               focusdir,       {.i = 0 } },            /* left     */
-    { WIN,                  XK_l,               focusdir,       {.i = 1 } },            /* right    */
-    { WIN,                  XK_k,               focusdir,       {.i = 2 } },            /* up       */
-    { WIN,                  XK_j,               focusdir,       {.i = 3 } },            /* down     */
+    { WIN,                  XK_h,               focusdir,       {.i = 0 } },            /* left  */
+    { WIN,                  XK_l,               focusdir,       {.i = 1 } },            /* right */
+    { WIN,                  XK_k,               focusdir,       {.i = 2 } },            /* up    */
+    { WIN,                  XK_j,               focusdir,       {.i = 3 } },            /* down  */
     { WIN,                  XK_i,               incnmaster,     {.i = +1 } },
     { WIN,                  XK_d,               incnmaster,     {.i = -1 } },
     { WIN,                  XK_minus,           setmfact,       {.f = -0.02} },
@@ -118,16 +124,16 @@ static const Key keys[] = {
     { WIN|ALT|SHFT,         XK_o,               incrogaps,      {.i = -3 } },
     { WIN|ALT,              XK_bracketleft,     togglegaps,     {0} },
     { WIN|ALT,              XK_p,               defaultgaps,    {0} },
-    { WIN|ALT,              XK_1,               setlayout,      {.v = &layouts[0]} },   /* tile             */
-    { WIN|ALT,              XK_2,               setlayout,      {.v = &layouts[1]} },   /* spiral           */
-    { WIN|ALT,              XK_3,               setlayout,      {.v = &layouts[2]} },   /* dwindle          */
-    { WIN|ALT,              XK_4,               setlayout,      {.v = &layouts[3]} },   /* centeredmaster   */
-    { WIN|ALT,              XK_5,               setlayout,      {.v = &layouts[4]} },   /* bstack           */
-    { WIN|ALT,              XK_6,               setlayout,      {.v = &layouts[5]} },   /* bstackhoriz      */
-    { WIN|ALT,              XK_7,               setlayout,      {.v = &layouts[6]} },   /* grid             */
-    { WIN|ALT,              XK_8,               setlayout,      {.v = &layouts[7]} },   /* horizgrid        */
-    { WIN|ALT,              XK_9,               setlayout,      {.v = &layouts[8]} },   /* gaplessgrid      */
-    { WIN|ALT,              XK_0,               setlayout,      {.v = &layouts[10]} },  /* floating         */
+    { WIN|ALT,              XK_1,               setlayout,      {.v = &layouts[0]} },   /* tile           */
+    { WIN|ALT,              XK_2,               setlayout,      {.v = &layouts[1]} },   /* spiral         */
+    { WIN|ALT,              XK_3,               setlayout,      {.v = &layouts[2]} },   /* dwindle        */
+    { WIN|ALT,              XK_4,               setlayout,      {.v = &layouts[3]} },   /* centeredmaster */
+    { WIN|ALT,              XK_5,               setlayout,      {.v = &layouts[4]} },   /* bstack         */
+    { WIN|ALT,              XK_6,               setlayout,      {.v = &layouts[5]} },   /* bstackhoriz    */
+    { WIN|ALT,              XK_7,               setlayout,      {.v = &layouts[6]} },   /* grid           */
+    { WIN|ALT,              XK_8,               setlayout,      {.v = &layouts[7]} },   /* horizgrid      */
+    { WIN|ALT,              XK_9,               setlayout,      {.v = &layouts[8]} },   /* gaplessgrid    */
+    { WIN|ALT,              XK_0,               setlayout,      {.v = &layouts[10]} },  /* floating       */
     { WIN|ALT|CTRL,         XK_j,               moveresize,     {.v = "0x 25y 0w 0h" } },
     { WIN|ALT|CTRL,         XK_k,               moveresize,     {.v = "0x -25y 0w 0h" } },
     { WIN|ALT|CTRL,         XK_l,               moveresize,     {.v = "25x 0y 0w 0h" } },

@@ -166,6 +166,8 @@ config.set("content.webrtc_ip_handling_policy", "default-public-interface-only")
 config.set("content.cookies.accept", "all")
 config.set("content.cookies.store", True)
 # config.set("content.javascript.enabled", False)
+config.set("content.javascript.clipboard", "access")
+config.set("content.javascript.clipboard", "access-paste")
 
 c.content.blocking.enabled = True
 # c.content.blocking.method = 'adblock' # uncomment this if you install python-adblock

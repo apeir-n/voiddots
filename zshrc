@@ -79,6 +79,10 @@ alias brightoff="xrandr --output eDP-1 --brightness 1.0"
 alias src="cd ~/.local/share/void-packages"
 alias cr="cargo run"
 alias rs="cd ~/.local/projects/rust && y"
+alias scrots="cd ~/Pictures/screenshots && y"
+alias pv="ping voidlinux.org"
+alias arc="printf '\u256d\u2500\u256e\n\u2570\u2500\u256f\n'"
+alias sqr="printf '\u250c\u2500\u2510\n\u2514\u2500\u2518\n'"
 
 #etc
 source <(fzf --zsh)
@@ -130,42 +134,6 @@ ZSH_HIGHLIGHT_STYLES[bracket-level-2]="fg=yellow"
 ZSH_HIGHLIGHT_STYLES[bracket-level-3]="fg=blue"
 ZSH_HIGHLIGHT_STYLES[bracket-level-4]="fg=magenta"
 
-#old prompt sourcing pywal cols before i realized zsh can just take ansi term colors
-#source ~/.cache/wal/colors.sh
-#NEWLINE=$'\n'
-#PROMPT="${NEWLINE}%K{${color1}}%F{${foreground}} %D{%_I:%M%P} %K{${color3}} %n %K{${color5}} %~ %f%k ❯ "
-# %3~ expands to tailing 3 dirs in cwd
-#   ❯ 󰧚
-
-#NEWLINE=$'\n'
-#PROMPT="${NEWLINE}%K{1}%F{15} %D{%I:%M} %K{3} %n %K{5} %~ %f%k ❯ "
-
 #NEWLINE=$'\n'
 #PROMPT="${NEWLINE}%K{1}%F{15} %D{%I:%M} %K{3} %n %K{4} %m %K{5} %~ %f%k ❯ "
-
-#function promptina() {
-#    # 
-#    local nl=$'\n'
-#    local os="%F{9}%f%K{9}%F{0} %k%F{9}%f"
-#    local clk="%F{10}%f%K{10}%F{0}%D{%I:%M%p}%k%F{10}%f"
-#    local dir="%F{11}%f%K{11}%F{0}%~%k%F{11}%f"
-#    local me="%F{13}%f%K{13}%F{0}%n%k%F{13}%f"
-#    echo "${nl}${os} ${clk} ${dir} ${nl}${me} %F{7}❯%f "
-#}
-
-function promptoid() {
-    echo "%F{${1}}%f%K{${1}}%F{${2}}${3}%k%F{${1}}%f"
-}
-
-function promptina() {
-    # 
-    local nl=$'\n'
-    local os=$(promptoid 9 0 "")
-    local me=$(promptoid 11 0 "%n")
-    local zsh=$(promptoid 12 0 "  zsh")
-    local ram=$(promptoid 13 0 "  $(free | awk '/Mem/ { printf("%.0f%%%\n", $3/$2 * 100) }')")
-    local mer=$(date '+%p' | tr '[:upper:]' '[:lower:]')
-    echo "${nl}${os} ${me} ${zsh} ${ram} ${nl}%F{7}╭─    %D{%I:%M}${mer} | %~${nl}╰─%f "
-}
-
-PROMPT="$(promptina)"
+source "$HOME/scripts/prompta"

@@ -11,3 +11,4 @@ user-style = "@import 'chawan.css'"
 'tj' = 'cmd.buffer.toggleScripting'
 'ti' = 'cmd.buffer.toggleImages'
 'tc' = 'cmd.buffer.toggleCookie'
+'yy' = 'cmd.copyURL'
