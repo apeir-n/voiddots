@@ -92,6 +92,8 @@ herbe.duration:
 nsxiv
 
 st
+- **FIGURED IT OUT**
+    - has to do with ligatures and scrollback_ringbuffer patch in combination
 - patches:
     - boxdraw
         - this ones weird, i had to make some significant changes
@@ -184,8 +186,26 @@ for (code_idx = 0; code_idx < shaped.count; code_idx++) {
 
 >       specs[numspecs].glyph = glyphidx;
 -------------------------------------------------------------------------------------------------
+
 ```
 
-surf
+`surf`
 
-tabbed
+`tabbed`
+
+`sbase & ubase`
+- both are configured to name the output binaries with the prefix `sl` to avoid naming conflicts
+    - i didn't want to give up my gnu coreutils, yet at least
+    - so the bins are called with `slcat`, `slpwd`, `slls`, etc
+- for `sbase` it's done in `scripts/mkproto` because that's what the makefile calls to copy and name the bins
+    - the script uses `sed` to name the bins, so i changed the command from:
+        - `sed "s@.*@c & $prefix/bin/& 755@"`
+        - to:
+        - `sed "s@.*/@@; s@.*@c & $prefix/bin/sl& 755@"`
+- for `ubase` it's more involved, but its just done in the makefile
+    - i make the variables `SLBIN, SLMAN1, SLMAN8` which add the `sl` prefix
+    - then in the install section, instead of using:
+        - `cp -f $(BIN) $(DESTDIR)$(PREFIX)/bin`
+        - i use:
+        - `for b in $(BIN); do cp -f "$$b" "$(DESTDIR)$(PREFIX)/bin/sl$$b"; done`
+        - and then same thing for the man pages, and that's basically it
