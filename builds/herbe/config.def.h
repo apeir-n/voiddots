@@ -1,7 +1,7 @@
 static const char *background_color = "#3e3e3e";
 static const char *border_color = "#ececec";
 static const char *font_color = "#ececec";
-static const char *font_pattern = "JetBrainsMono Nerd Font:size=10";
+static const char *font_pattern = "monospace:pixelsize=14";
 static unsigned line_spacing = 9;
 static unsigned int padding = 15;
 

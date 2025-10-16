@@ -734,8 +734,14 @@ sigchld(int a)
 	if ((p = waitpid(pid, &stat, WNOHANG)) < 0)
 		die("waiting for pid %hd failed: %s\n", pid, strerror(errno));
 
-	if (pid != p)
+	if (pid != p) {
+		if (p == 0 && wait(&stat) < 0)
+			die("wait: %s\n", strerror(errno));
+
+		/* reinstall sigchld handler */
+		signal(SIGCHLD, sigchld);
 		return;
+	}
 
 	if (WIFEXITED(stat) && WEXITSTATUS(stat))
 		die("child exited with status %d\n", WEXITSTATUS(stat));
@@ -819,7 +825,7 @@ ttynew(const char *line, char *cmd, const char *out, char **args)
 		break;
 	default:
 #ifdef __OpenBSD__
-		if (pledge("stdio rpath tty proc", NULL) == -1)
+		if (pledge("stdio rpath tty proc exec", NULL) == -1)
 			die("pledge\n");
 #endif
 		close(s);
@@ -1516,15 +1522,21 @@ tsetattr(const int *attr, int l)
 			if ((idx = tdefcolor(attr, &i, l)) >= 0)
 				term.c.attr.fg = idx;
 			break;
-		case 39:
+		case 39: /* set foreground color to default */
 			term.c.attr.fg = defaultfg;
 			break;
 		case 48:
 			if ((idx = tdefcolor(attr, &i, l)) >= 0)
 				term.c.attr.bg = idx;
 			break;
-		case 49:
+		case 49: /* set background color to default */
 			term.c.attr.bg = defaultbg;
+			break;
+		case 58:
+			/* This starts a sequence to change the color of
+			 * "underline" pixels. We don't support that and
+			 * instead eat up a following "5;n" or "2;r;g;b". */
+			tdefcolor(attr, &i, l);
 			break;
 		default:
 			if (BETWEEN(attr[i], 30, 37)) {
@@ -1622,7 +1634,7 @@ tsetmode(int priv, int set, const int *args, int narg)
 			case 1006: /* 1006: extended reporting mode */
 				xsetmode(set, MODE_MOUSESGR);
 				break;
-			case 1034:
+			case 1034: /* 1034: enable 8-bit mode for keyboard input */
 				xsetmode(set, MODE_8BIT);
 				break;
 			case 1049: /* swap screen & set/restore cursor as xterm */
@@ -1630,8 +1642,8 @@ tsetmode(int priv, int set, const int *args, int narg)
 					break;
 				tcursor((set) ? CURSOR_SAVE : CURSOR_LOAD);
 				/* FALLTHROUGH */
-			case 47: /* swap screen */
-			case 1047:
+			case 47: /* swap screen buffer */
+			case 1047: /* swap screen buffer */
 				if (!allowaltscreen)
 					break;
 				alt = IS_SET(MODE_ALTSCREEN);
@@ -1644,7 +1656,7 @@ tsetmode(int priv, int set, const int *args, int narg)
 				if (*args != 1049)
 					break;
 				/* FALLTHROUGH */
-			case 1048:
+			case 1048: /* save/restore cursor (like DECSC/DECRC) */
 				tcursor((set) ? CURSOR_SAVE : CURSOR_LOAD);
 				break;
 			case 2004: /* 2004: bracketed paste mode */
@@ -2003,7 +2015,7 @@ strhandle(void)
 			if (narg > 1)
 				xsettitle(strescseq.args[1]);
 			return;
-		case 52:
+		case 52: /* manipulate selection data */
 			if (narg > 2 && allowwindowops) {
 				dec = base64dec(strescseq.args[2]);
 				if (dec) {
@@ -2014,9 +2026,9 @@ strhandle(void)
 				}
 			}
 			return;
-		case 10:
-		case 11:
-		case 12:
+		case 10: /* set dynamic VT100 text foreground color */
+		case 11: /* set dynamic VT100 text background color */
+		case 12: /* set dynamic text cursor color */
 			if (narg < 2)
 				break;
 			p = strescseq.args[1];
@@ -2057,6 +2069,19 @@ strhandle(void)
 				tfulldirt();
 			}
 			return;
+		case 110: /* reset dynamic VT100 text foreground color */
+		case 111: /* reset dynamic VT100 text background color */
+		case 112: /* reset dynamic text cursor color */
+			if (narg != 1)
+				break;
+			if ((j = par - 110) < 0 || j >= LEN(osc_table))
+				break; /* shouldn't be possible */
+			if (xsetcolorname(osc_table[j].idx, NULL)) {
+				fprintf(stderr, "erresc: %s color not found\n", osc_table[j].str);
+			} else {
+				tfulldirt();
+			}
+			return;
 		}
 		break;
 	case 'k': /* old title set compatibility */
@@ -2092,6 +2117,59 @@ strparse(void)
 			return;
 		*p++ = '\0';
 	}
+}
+
+void
+externalpipe(const Arg *arg)
+{
+	int to[2];
+	char buf[UTF_SIZ];
+	void (*oldsigpipe)(int);
+	Glyph *bp, *end;
+	int lastpos, n, newline;
+
+	if (pipe(to) == -1)
+		return;
+
+	switch (fork()) {
+	case -1:
+		close(to[0]);
+		close(to[1]);
+		return;
+	case 0:
+		dup2(to[0], STDIN_FILENO);
+		close(to[0]);
+		close(to[1]);
+		execvp(((char **)arg->v)[0], (char **)arg->v);
+		fprintf(stderr, "st: execvp %s\n", ((char **)arg->v)[0]);
+		perror("failed");
+		exit(0);
+	}
+
+	close(to[0]);
+	/* ignore sigpipe for now, in case child exists early */
+	oldsigpipe = signal(SIGPIPE, SIG_IGN);
+	newline = 0;
+	for (n = 0; n < term.row; n++) {
+		bp = term.screen[0].buffer[n];
+		lastpos = MIN(tlinelen(n) + 1, term.col) - 1;
+		if (lastpos < 0)
+			break;
+		end = &bp[lastpos + 1];
+		for (; bp < end; ++bp)
+			if (xwrite(to[1], buf, utf8encode(bp->u, buf)) < 0)
+				break;
+		if ((newline = term.screen[0].buffer[n][lastpos].mode & ATTR_WRAP))
+			continue;
+		if (xwrite(to[1], "\n", 1) < 0)
+			break;
+		newline = 0;
+	}
+	if (newline)
+		(void)xwrite(to[1], "\n", 1);
+	close(to[1]);
+	/* restore */
+	signal(SIGPIPE, oldsigpipe);
 }
 
 void

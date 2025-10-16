@@ -11,8 +11,8 @@ static       int smartgaps          = 0;        /* 1 means no outer gap when the
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 6;        /* 2 is the default spacing around the bar's font */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { "monospace:pixelsize=14", "JetBrainsMono Nerd Font:pixelsize=12" };
+static const char dmenufont[]       = "monospace:pixelsize=14";
 static char normbgcolor[]           = "#18182f";
 static char normbordercolor[]       = "#483b4b";
 static char normfgcolor[]           = "#c399a8";

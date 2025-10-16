@@ -1,0 +1,8 @@
+in externalpipe function:
+
+bp =
+    term.line[n] -> term.screen[0].buffer[n]
+
+if ((newline =
+    term.line[n][lastpos].mode -> term.screen[0].buffer[n][lastpos].mode
+& ATTR_WRAP))

@@ -2,8 +2,8 @@
 
 static char *font = "monospace:pixelsize=14:antialias=true:autohint=true";
 static char *font2[] = {
-    "Noto Color Emoji:pixelsize=15:antialias=true:autohint=true",
     "JetBrainsMono Nerd Font Mono:pixelsize=14:antialias=true:autohint=true",
+    "Noto Color Emoji:pixelsize=15:antialias=true:autohint=true",
 };
 
 static int borderpx = 2;
@@ -77,7 +77,7 @@ const int boxdraw = 1;
 const int boxdraw_bold = 0;
 
 /* braille (U28XX):  1: render as adjacent "pixels",  0: use font */
-const int boxdraw_braille = 1;
+const int boxdraw_braille = 0;
 
 /*
  * bell volume. It must be a value between -100 and 100. Use 0 for disabling
@@ -166,7 +166,7 @@ static unsigned int defaultrcs = 0;
  * 7: blinking st cursor
  * 8: steady st cursor
  */
-static unsigned int cursorstyle = 0;
+static unsigned int cursorstyle = 1;
 static Rune stcursor = 0x2603; /* snowman ("☃") */
 
 /*
@@ -232,6 +232,8 @@ ResourcePref resources[] = {
         { "chscale",      FLOAT,   &chscale },
 };
 
+static const char *copyout[] = { "/bin/sh", "-c", "xclip -selection clipboard", NULL};
+
 /*
  * Internal mouse shortcuts.
  * Beware that overloading Button1 will disable the selection.
@@ -275,6 +277,7 @@ static Shortcut shortcuts[] = {
 	{ MODKEY,               XK_bracketleft,     chgalpha,       {.f = -1} },
 	{ MODKEY,               XK_bracketright,    chgalpha,       {.f = +1} },
 	{ MODKEY,               XK_backslash,       chgalpha,       {.f =  0} },
+	{ MODKEY|ShiftMask,     XK_Y,               externalpipe,   {.v =  copyout} },
 };
 
 /*
