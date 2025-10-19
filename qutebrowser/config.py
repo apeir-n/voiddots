@@ -130,8 +130,8 @@ config.bind("<alt-h>", "history")
 config.bind("<alt-a>", "config-cycle tabs.show multiple never")
 config.bind("<alt-x>", "config-cycle statusbar.show always never")
 config.bind("<alt-z>", "config-cycle tabs.show multiple never;; config-cycle statusbar.show always never")
-config.bind("<alt-j>", "completion-item-focus next", mode="command")
-config.bind("<alt-k>", "completion-item-focus prev", mode="command")
+config.bind("<ctrl-j>", "completion-item-focus next", mode="command")
+config.bind("<ctrl-k>", "completion-item-focus prev", mode="command")
 
 # customize
 c.tabs.show = "multiple"

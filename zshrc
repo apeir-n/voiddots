@@ -56,7 +56,7 @@ alias xr="doas xbps-remove"
 alias xq="xbps-query"
 alias xs="xbps-slay"
 alias xini="nvim $HOME/.xinitrc"
-alias x="startx"
+alias x="launch dwm"
 alias svfailed="doas sv status /var/service/* | grep -v run"
 alias todo="nvim ~/Documents/obsidian_vault/terminaltown/denizen_todo.md"
 alias notes="nvim ~/Documents/obsidian_vault/terminaltown/denizen_notes.md"
@@ -105,14 +105,9 @@ function y() {
 }
 
 function woman() {
-    bat $XDG_DATA_HOME/man/man1/$@.md
+    #mdcat -p $XDG_DATA_HOME/man/man1/$@.md
+    mdcat -p $HOME/.local/share/man/man1/$@.md
 }
-
-#reload-zshrc() {
-#    source ~/.zshrc
-#}
-#zle -N reload-zshrc
-#bindkey '^B' reload-zshrc
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
 ZSH_HIGHLIGHT_STYLES[default]="fg=white"
@@ -131,6 +126,12 @@ ZSH_HIGHLIGHT_STYLES[bracket-level-2]="fg=yellow"
 ZSH_HIGHLIGHT_STYLES[bracket-level-3]="fg=blue"
 ZSH_HIGHLIGHT_STYLES[bracket-level-4]="fg=magenta"
 
-#NEWLINE=$'\n'
-#PROMPT="${NEWLINE}%K{1}%F{15} %D{%I:%M} %K{3} %n %K{4} %m %K{5} %~ %f%k ❯ "
-source "$HOME/scripts/prompta"
+case "$TERM" in
+    linux|xterm)
+        nl=$'\n'
+        PROMPT="${nl}%K{1}%F{0} %D{%I:%M} %K{3} zsh %K{4} %n %K{5} %m %f%k${nl}%F{7}┌── %~${nl}└─%f "
+        ;;
+    *)
+        source "$HOME/scripts/prompta"
+        ;;
+esac
