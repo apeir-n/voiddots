@@ -146,15 +146,15 @@ config.set("url.start_pages", "~/.config/qutebrowser/etc/home.html")
 #config.set("content.user_stylesheets", "~/.config/qutebrowser/styles/qute.css")
 
 # fonts
-c.fonts.default_family = ["JetBrainsMono Nerd Font"]
+c.fonts.default_family = ["IoTerminaMindless Nerd Font"]
 c.fonts.default_size = "10pt"
-c.fonts.web.family.fixed = "JetBrainsMono Nerd Font"
-c.fonts.web.family.sans_serif = "JetBrainsMono Nerd Font"
-c.fonts.web.family.serif = "JetBrainsMono Nerd Font"
-c.fonts.web.family.standard = "JetBrainsMono Nerd Font"
+c.fonts.web.family.fixed = "IoTerminaMindless Nerd Font"
+c.fonts.web.family.sans_serif = "IoTerminaMindless Nerd Font"
+c.fonts.web.family.serif = "IoTerminaMindless Nerd Font"
+c.fonts.web.family.standard = "IoTerminaMindless Nerd Font"
 c.fonts.web.size.default = 14
-c.fonts.contextmenu = "JetBrainsMono Nerd Font"
-c.fonts.prompts = "JetBrainsMono Nerd Font"
+c.fonts.contextmenu = "IoTerminaMindless Nerd Font"
+c.fonts.prompts = "IoTerminaMindless Nerd Font"
 
 # privacy
 # config.set("completion.cmd_history_max_items", 0)
