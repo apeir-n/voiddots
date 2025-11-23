@@ -33,9 +33,30 @@ on  = [ "g", "p" ]
 run = "cd ~/.cache/wal"
 desc = "go_walclrs"
 
+#[[mgr.prepend_keymap]]
+#on = "w"
+#run = '''
+#shell '~/scripts/paperplane "$1"' -- $1
+#'''
+#desc = "wallpaper_set"
+
+#[[mgr.prepend_keymap]]
+#on = [ "o", "n" ]
+#run = '''
+#shell 'nsxiv --anti-alias=no "$1"' -- $1
+#'''
+#desc = "open_nsxiv"
+
 [[mgr.prepend_keymap]]
-on = "w"
+on = "N"
 run = '''
-shell '~/scripts/paperplane "$1"' -- $1
+shell 'nsxiv --anti-alias=no "$1"' -- $1
 '''
-desc = "wallpaper_set"
+desc = "open_nsxiv"
+
+#[[mgr.prepend_keymap]]
+#on = "U"
+#run = '''
+#shell 'git pull "$(pwd)"'
+#'''
+#desc = "git_pull"

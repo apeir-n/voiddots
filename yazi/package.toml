@@ -8,6 +8,11 @@ use = "yazi-rs/plugins:no-status"
 rev = "de53d90"
 hash = "3e023d31f29201efdac2a6ae35fedb78"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:piper"
+rev = "8f1d971"
+hash = "64713dcd74daf9ec644883a5895e5d1"
+
 [[flavor.deps]]
 use = "bennyyip/gruvbox-dark"
 rev = "91fdfa7"

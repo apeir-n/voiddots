@@ -1,0 +1,17 @@
+#[preview]
+#
+#[[previewer.append]]
+#name = "xpmprev"
+#mime = "image/x-xpixmap"
+#run = "bat -Ppl c ${file}"
+
+[open]
+prepend_rules = [
+    { name = "*.xpm", use = "edit" },
+    { name = "*.diff", use = "edit" },
+]
+
+[plugin]
+prepend_previewers = [
+    { name = "*.xpm", run = "code" },
+]

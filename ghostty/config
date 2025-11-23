@@ -13,7 +13,7 @@
 #theme = Horizon
 #theme = jubi
 #theme = Kanagawa Dragon
-theme = Kanagawa Wave
+#theme = Kanagawa Wave
 #theme = nightfox
 #theme = nord-wave
 #theme = rose-pine
@@ -21,8 +21,9 @@ theme = Kanagawa Wave
 theme = pywal
 
 # 🔤 fonts
-#font-family = Io Termina
-#font-family = JetBrainsMono Nerd Font
+#font-family = Io Termina Mind
+#font-family = IoTermina Nerd Font
+font-family = JetBrainsMono Nerd Font
 #font-family = EmojiOne Color
 #font-family = DaddyTimeMono Nerd Font
 #font-family = IosevkaTermSlab Nerd Font
@@ -31,8 +32,8 @@ theme = pywal
 #font-family = ShureTechMono Nerd Font
 #font-family = GohuFont 11 Nerd Font # a bit more cramped
 #font-family = GohuFont 14 Nerd Font # thinner
-font-size = 10
-#font-size = 11
+#font-size = 10
+font-size = 11
 
 # 💻 terminal
 background-opacity = 0.90

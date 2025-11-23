@@ -1,0 +1,367 @@
+DeskTopSize 2 3
+EdgeScroll 0 0
+Module FvwmPager * *
+*FvwmPagerBack {color1}
+*FvwmPagerFore {color0}
+#*FvwmPagerHilight {color6}
+*FvwmPagerHilight {color2}
+*FvwmPagerFont none
+*FvwmPagerGeometry -2+2
+*FvwmPagerLabel FvwmPager
+*FvwmPager: WindowLabelFormat ""
+*FvwmPager: SolidSeparators
+
+Module FvwmAuto 10 raise lower
+Module FvwmIconMan
+*FvwmIconMan*nummanagers            1
+*FvwmIconMan*resolution             global
+*FvwmIconMan*foreground             {color0}
+*FvwmIconMan*buttongeometry         127x0
+*FvwmIconMan*managergeometry        1x0-2+320
+*FvwmIconMan*plainbutton            up {color0} {color9}
+*FvwmIconMan*selectbutton           down {color0} {color1}
+*FvwmIconMan*focusbutton            up {color0} {color11}
+*FvwmIconMan*focusandselectButton   down {color0} {color3}
+#*FvwmIconMan*titleButton            raisededge white steelblue
+*FvwmIconMan*followfocus            true
+*FvwmIconMan*drawicons              true
+
+# active windows
+ColorSet 16 fg {color0}, bg {color6}, fgsh {color13}
+Style * HilightColorSet 16
+
+# inactive windows
+Colorset 17 fg {color0}, bg {color4}, fgsh {color11}
+Style * Colorset 17
+
+Style "*" IconBox 4 4 90 -0, IconGrid 1 1, IconFill Left Top
+Style * IconBackgroundColorset 17
+Style * IconSize 90 70 -1 -1
+Style * IconBackgroundRelief 2
+Style * IconBackgroundPadding 2
+
+##################
+##### fonts ######
+####### & ########
+##### styles #####
+##################
+
+MenuStyle * FVWM
+MenuStyle * VerticalItemSpacing 3 3, VerticalTitleSpacing 3 3
+MenuStyle * HilightBack {color3}, ActiveFore {color15}
+MenuStyle * Foreground {color0}, Background {color12}
+
+MenuStyle * Font    -*-ter-medium-r-normal-*-14-*-*-*-*-*-*-*
+WindowFont          -*-ter-medium-r-normal-*-12-*-*-*-*-*-*-*
+IconFont            -*-ter-bold-r-normal-*-14-*-*-*-*-*-*-*
+
+#FVWM style is equivalent to HilightBackOff, Hilight3DThin,
+#ActiveForeOff, AnimationOff, Font, MenuFace, PopupOffset 0 67,
+#TitleWarp, TitleUnderlines1, SeparatorsShort, TriangleRelief,
+#PopupDelayed.
+
+TitleStyle Height 20
+Style * DecorateTransient
+Style * SnapAttraction 6 Screen
+ClickTime 250
+#OpaqueMoveSize -1
+#Emulate Mwm
+Style "*" SmartPlacement
+
+# overrides
+Style *             Title, Handles, !MWMFunctions, NoDecorHint, StickyIcon
+Style *             DepressableBorder 
+Style "FvwmPager"   NoTitle, Sticky, WindowListSkip, NoHandles, StaysOnTop, BorderWidth 7
+Style "FvwmIconMan" NoTitle, Sticky, WindowListSkip, NoHandles, StaysOnTop, BorderWidth 7
+Style "xload"       NoTitle, Sticky, WindowListSkip, NoHandles, StaysOnTop, BorderWidth 7
+Style "xclock"      NoTitle, Sticky, WindowListSkip, NoHandles, StaysOnTop, BorderWidth 7
+Style "xneko"       NoTitle, Sticky, WindowListSkip, NoHandles, StaysOnTop, BorderWidth 7
+Style "oclock"      NoTitle, Sticky, WindowListSkip, NoHandles, StaysOnTop
+Style "xeyes"       NoTitle, Sticky, WindowListSkip, NoHandles, StaysOnTop
+
+####################
+##### mouse ########
+##### bindings #####
+####################
+
+Mouse 0     1       A       Menu Window-Ops2 Close
+Mouse 0     2       A       Maximize 0 100
+Mouse 0     4       A       Iconify
+Mouse 1     R       A       Menu RootMenu
+Mouse 3     R       A       Menu Window-Ops Nop
+Mouse 2     R       A       WindowList
+Mouse 3     WTSIF   A       Raise
+Mouse 0     TSIF    A       Resize
+Mouse 0     I       A       TileIcons
+Mouse 1     T       A       Maximize-or-Move
+
+AddToFunc "InitFunction" I Module FvwmPager
+AddToFunc "RestartFunction" I Module FvwmPager
+
+####################
+##### window #######
+##### functions ####
+####################
+
+# auto re-tile icons when list changes
+AddToFunc TileIcons
++ "C" Iconify off
++ "C" All (CurrentPage, Iconic) PlaceAgain Icon
+
+AddToFunc Move-or-Raise
++ "I" Raise
++ "M" Move
++ "D" Lower
+
+AddToFunc Resize-or-Raise
++ "M" Raise
++ "M" Resize
++ "D" Lower
+
+# double click max, single click move
+AddToFunc Maximize-or-Move
++ "D" Maximize
++ "I" Raise
++ "C" Focus
++ "M" Move
+
+AddToFunc WinTileRight
++ "I" Maximize 884p 1074p
++ "I" Move -145p -5p
+
+AddToFunc WinTileLeft
++ "I" Maximize 884p 1074p
++ "I" Move +3p -5p
+
+AddToFunc WinTileBottomRight
++ "I" Maximize 884p 530p
++ "I" Move -145p -5p
+
+AddToFunc WinTileUpperRight
++ "I" Maximize 884p 530p
++ "I" Move -145p -549p
+
+####################
+##### key ##########
+##### bindings #####
+####################
+
+# page nav
+Key h       A   41   Scroll  -100 0
+Key l       A   41   Scroll  +100  +0
+Key k       A   41   Scroll  +0 -100
+Key j       A   41   Scroll  +0 +100
+Key Left    A   4    Scroll  -100 0
+Key Right   A   4    Scroll  +100  +0
+Key Up      A   4    Scroll  +0 -100
+Key Down    A   4    Scroll  +0 +100
+Key h       A   4    Direction West (CurrentPage) Focus
+Key l       A   4    Direction East (CurrentPage) Focus
+Key k       A   4    Direction North (CurrentPage) Focus
+Key j       A   4    Direction South (CurrentPage) Focus
+Key 1       A   4    GotoPage 0 0
+Key 2       A   4    GotoPage 1 0
+Key 3       A   4    GotoPage 0 1
+Key 4       A   4    GotoPage 1 1
+Key 5       A   4    GotoPage 0 2
+Key 6       A   4    GotoPage 1 2
+
+# move windows
+Key h       A   1C4  Move    w-20p w+0p
+Key l       A   1C4  Move    w+20p w+0p
+Key k       A   1C4  Move    w+0p w-20p
+Key j       A   1C4  Move    w+0p w+20p
+Key g       A   1SC4 Resize
+Key h       A   1S4  WinTileLeft
+Key l       A   1S4  WinTileRight
+Key j       A   1S4  WinTileBottomRight
+Key k       A   1S4  WinTileUpperRight
+
+#Key j       A   1CS4 Resize  w+10 w+0
+#Key k       A   1CS4 Resize  w+0 w+10
+
+# etc
+Key Escape  A   4    Menu    RootMenu
+Key q       A   4    Close
+Key i       A   4    Iconify
+Key space   A   4    Exec    dmenu_run -fn 'Terminus:size=12' -bw 3
+Key space   A   1    Exec    /home/ch_rism_/scripts/paperfold 'Terminus:size=14'
+Key space   A   S1   Exec    /home/ch_rism_/scripts/paper
+Key a       A   4    Exec    alacritty &
+Key Return  A   4    Exec    st &
+
+###############
+#### menus ####
+###############
+
+AddToMenu Window-Ops
++   "windowops"         Title
++   "raise"             Raise
++   "lower"             Lower
++   "iconify"           Iconify
++   "stick"             Stick
++   "tile"              Module FvwmRearrange -tile -h 10 10 90 90
++   "cascade"           Module FvwmRearrange -cascade -resize 10 2 80 70
++   "maximize"          Maximize
++   ""                  Nop
++   "delete"            Delete
++   "close"             Close
++   "destroy"           Destroy
++   ""                  Nop
++   "refreshscreen"     Refresh
+
+AddToMenu Window-Ops2
++   "move"              Move
++   "resize"            Resize
++   "stick"             Stick
++   ""                  Nop
++   "close"             Close
+
+AddToMenu RootMenu
++   "rootmenu"          Title
++   "st"                Exec st &
++   "alacritty"         Exec alacritty &
++   "xterm"             Exec xterm &
++   "notes"             Exec alacritty --working-directory /home/kerygm_/Documents/obsidian_vault/__planner -e lf &
++   ""                  Nop
++   "rearrange"         Popup RearrangeMenu
++   "internet"          Popup SurfMenu
++   "system"            Popup SysMenu
+#+   "a/v"               Popup MediaMenu
+#+   "apps"              Popup UtilsMenu
+
+#DestroyFunc MasterStack AddToFunc MasterStack
+#+   "I"             make a master window somehow
+#+   "I"             fvwmrearrange autotile
+
+AddToMenu RearrangeMenu
++   "grid"          Module FvwmRearrange -gap 18
++   "tile"          Module FvwmRearrange -tile 2 2 98 98 -gap 18
++   "swap"          Module FvwmRearrange -tile -swap 0 0 35 100
++   "sawp"          Module FvwmRearrange -auto_tile 50 10 90 100 -gap 18
++   "cunt"          FvwmRearrange -auto_tile 50 2 99 99 -gap 18
+
+AddToMenu SurfMenu
++   "qutebrowser"   exec qutebrowser &
++   "chawan"        exec alacritty -e cha file:///home/ch_rism_/.config/qutebrowser/etc/home.html &
++   "w3m"           exec alacritty -e w3m file:///home/ch_rism_/.config/qutebrowser/etc/home.html &
+#+   "surf"          exec surf file:///home/ch_rism_/.config/qutebrowser/etc/home.html &
+
+AddToMenu SysMenu
++   "files"         Exec alacritty -e lf &
++   "mixer"         Exec alacritty -e cmixer &
++   "monitoring"    Exec alacritty -o window.dimensions.lines=25 -o window.dimensions.columns=80 -e btop --force-utf &
++   ""              Nop
++   "restart"       Restart
++   "quit"          Quit
+
+#AddToMenu UtilsMenu
+#+   "LeafPad"        exec leafpad &
+#+   "Geany"          exec geany &
+#+   "PDF Reader"     exec evince &
+#+   "Calculator"     exec galculator &
+#+   "GNumeric"       exec gnumeric &
+#+   "Calendar"       exec orage &
+#+   "XMag"           exec xmag -source 150x150 &
+#+   "XFontSel"       exec xfontsel &
+#
+#AddToMenu GfxMenu
+#+   "Grafx2"        exec grafx2 &
+#+   "Pixcen"        exec wine64-stable ~/winapps/Pixcen.exe &
+#+   "SpritePad"     exec wine64-stable ~/winapps/Spritepad/SpritePad.exe &
+#+   "mtPaint"       exec mtpaint &
+#+   "Xfractint"     exec xfractint -font fixed -ctrlwindow &
+#
+#AddToMenu MediaMenu
+#+   "Audacious"     exec audacious &
+#+   "VLC"           exec vlc &
+#+   "Gnome-MPV"     exec gnome-mpv &
+#+   "MilkyTracker"  exec milkytracker -nosplash &
+#+   "MikMod"        exec xterm -title MikMod -e mikmod &
+
+############################################################################
+# FvwmIconBox
+#
+# NOTE: Icons will only be shown in module if Style "??" NoIcon is set
+#*FvwmIconBoxIconBack    #cfcfcf
+#*FvwmIconBoxIconHiFore  black
+#*FvwmIconBoxIconHiBack  LightSkyBlue
+#*FvwmIconBoxBack        #5f9ea0
+#*FvwmIconBoxFore       blue
+#*FvwmIconBoxGeometry    5x1+0+0
+#*FvwmIconBoxMaxIconSize 64x38
+#*FvwmIconBoxFont        -adobe-helvetica-medium-r-*-*-12-*-*-*-*-*-*-*
+#*FvwmIconBoxSortIcons   IconName
+#*FvwmIconBoxPadding     4
+#*FvwmIconBoxLines       10
+#*FvwmIconBoxSBWidth     11
+#*FvwmIconBoxPlacement   Left Top
+#*FvwmIconBoxPixmap      fvwm.xpm
+##*FvwmIconBoxHideSC Horizontal
+#*FvwmIconBoxSetWMIconSize
+#*FvwmIconBoxHilightFocusWin
+##*FvwmIconBoxResolution          Desk
+#*FvwmIconBoxMouse       1       Click           RaiseLower
+#*FvwmIconBoxMouse       1       DoubleClick     Iconify
+#*FvwmIconBoxMouse       2       Click           Iconify -1, Focus
+#*FvwmIconBoxMouse       3       Click           Module FvwmIdent
+#*FvwmIconBoxKey         r       RaiseLower
+#*FvwmIconBoxKey         space   Iconify
+#*FvwmIconBoxKey         d       Close
+#*FvwmIconBoxKey         n       Next
+#*FvwmIconBoxKey         p       Prev
+#*FvwmIconBoxKey         h       Left
+#*FvwmIconBoxKey         j       Down
+#*FvwmIconBoxKey         k       Up
+#*FvwmIconBoxKey         l       Right
+
+#*FvwmIconMan*numManagers 1
+#*FvwmIconMan*Resolution  page
+#*FvwmIconMan*background  bisque3
+#*FvwmIconMan*foreground  black
+#*FvwmIconMan*font        7x13bold
+#*FvwmIconMan*format      "%t"
+#*FvwmIconMan*action      Mouse   1 N sendcommand Focus, sendcommand "Iconify"
+#*FvwmIconMan*action      Mouse   2 N sendcommand "Iconify 1"
+#*FvwmIconMan*action      Mouse   3 N sendcommand "FvwmIdent"
+#*FvwmIconMan*followfocus true
+#*FvwmIconMan*sort        false
+#*FvwmIconMan*plainbutton          up black bisque3
+#*FvwmIconMan*selectbutton         down black bisque3
+#*FvwmIconMan*focusbutton          up yellow firebrick
+#*FvwmIconMan*focusandselectButton down yellow firebrick
+#*FvwmIconMan*dontshow icon=Untitled name=Untitled
+##*FvwmIconMan*drawicons true
+#*FvwmIconMan*buttongeometry  300x0
+#*FvwmIconMan*managergeometry 1x5
+
+################### FvwmTaskBar #############################################
+## FvwmIconMan task bar icons
+#*FvwmIconMan*title ""
+#*FvwmIconMan*managergeometry 5x0
+#*FvwmIconMan*usewinlist true
+#*FvwmIconMan*format %c
+#*FvwmIconMan*tips needed
+#*FvwmIconMan*plainbutton flat black light grey
+#*FvwmIconMan*buttongeometry 120x0
+#*FvwmIconMan*maxbuttonwidth 120
+#*FvwmIconMan*action Mouse 1 N sendcommand Maximize-Func
+#*FvwmIconMan*action Mouse 2 N sendcommand Iconify
+#*FvwmIconMan*resolution desk
+## Buttonbar to contain IconMan and Pager
+#*FvwmButtonsGeometry +0-1
+#*FvwmButtonsFrame 0 
+#*FvwmButtonsRows 1
+##*FvwmButtonsColumns 1200
+#*FvwmButtonsBack light grey
+#*FvwmButtonsFore black
+#*FvwmButtonsFrame 3
+#*FvwmButtonsBoxSize smart
+## Pager buttons
+#*FvwmButtons  "Default" Action GotoPage 0 0
+#*FvwmButtons  "Internet" Action GotoPage 0 1
+#*FvwmButtons  "System" Action GotoPage 1 0
+#*FvwmButtons  "Manuals" Action GotoPage 1 1 
+#*FvwmButtons (Size 11x1, (NoHints), Swallow  "FvwmIconMan" FvwmIconMan )
+#Style "FvwmButtons" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
+#   CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable

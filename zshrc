@@ -56,11 +56,11 @@ alias xr="doas xbps-remove"
 alias xq="xbps-query"
 alias xs="xbps-slay"
 alias xini="nvim $HOME/.xinitrc"
+#alias x="launch dwm"
 alias x="launch dwm"
 alias svfailed="doas sv status /var/service/* | grep -v run"
 alias todo="nvim ~/Documents/obsidian_vault/terminaltown/denizen_todo.md"
 alias notes="nvim ~/Documents/obsidian_vault/terminaltown/denizen_notes.md"
-alias synco="obsidian_sync"
 alias o="cd ~/Documents/obsidian_vault && y"
 alias op="cd ~/Documents/obsidian_vault/__planner && y"
 alias suck="cd ~/.local/src/suckless && y"
@@ -80,6 +80,14 @@ alias stars="astroterm -Cc -s 400 -a 41.1081 -o -81.5148"
 alias stors="astroterm -Cuc -s 400 -a 41.1081 -o -81.5148"
 alias news="hackernews_tui"
 alias xres="nvim ~/.Xresources"
+alias nmtui="doas nmtui"
+alias beget="doas make install && make clean"
+alias xpetbeget="doas make clean install && doas make clean"
+alias dy="doas yazi"
+alias yesnigga='echo -e "\e[0;90myes nigga\n\e[0;91mno nigga\n\e[0;92myes nigga\n\e[0;93mno nigga\n\e[0;94myes nigga\n\e[0;95mno nigga\n\e[0;96myes nigga\n\e[0;97mno nigga\n\e[0m"'
+alias nonigga='echo -e "\e[0;90;107myes nigga\n\e[0;91;106mno nigga\n\e[0;92;105myes nigga\n\e[0;93;104mno nigga\n\e[0;94;103myes nigga\n\e[0;95;102mno nigga\n\e[0;96;101myes nigga\n\e[0;97;100mno nigga\n\e[0m"'
+alias yespleasenigga='echo -e "\e[0;30myes nigga\n\e[0;31mno nigga\n\e[0;32myes nigga\n\e[0;33mno nigga\n\e[0;34myes nigga\n\e[0;35mno nigga\n\e[0;36myes nigga\n\e[0;37mno nigga\n\e[0m"'
+alias nothankyounigga='echo -e "\e[0;30;47myes nigga\n\e[0;31;46mno nigga\n\e[0;32;45myes nigga\n\e[0;33;44mno nigga\n\e[0;34;43myes nigga\n\e[0;35;42mno nigga\n\e[0;36;41myes nigga\n\e[0;37;40mno nigga\n\e[0m"'
 
 #etc
 source <(fzf --zsh)
@@ -93,6 +101,10 @@ function c() {
 
 function s() {
     ${EDITOR:-nvim} "$HOME/scripts/${(j:/:)@}"
+}
+
+function v() {
+    ${EDITOR:-nvim} "$HOME/Documents/obsidian_vault/${(j:/:)@}.md"
 }
 
 function y() {

@@ -3,6 +3,7 @@ local options = {
     ruler = false,
     showmode = false,
     showcmd = false,
+    showtabline = 1,
     cmdheight = 0,
     wrap = false,
     linebreak = true,
@@ -27,7 +28,7 @@ local options = {
     foldlevel = 99,
     foldexpr = "nvim_treesitter#foldexpr()",
     termguicolors = true,
-    ignorecase = true,
+    ignorecase = false,
     smartcase = true,
     conceallevel = 0,
     concealcursor = "nc",
@@ -38,6 +39,5 @@ for k, v in pairs(options) do
     vim.opt[k] = v
 end
 
-vim.o.showtabline = 1
 vim.opt.fillchars:append({ eob = " " })
 vim.diagnostic.config({ signs = false })
