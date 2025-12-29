@@ -1,4 +1,4 @@
-/* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
@@ -11,14 +11,20 @@ static       int smartgaps          = 0;        /* 1 means no outer gap when the
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 6;        /* 2 is the default spacing around the bar's font */
-static const char *fonts[]          = { "monospace:pixelsize=14", "JetBrainsMono Nerd Font:pixelsize=12" };
+static const char *fonts[]          = { "monospace:pixelsize=14", "IoTerminaMindless Nerd Font:pixelsize=12" };
 static const char dmenufont[]       = "monospace:pixelsize=14";
-static char normbgcolor[]           = "#18182f";
-static char normbordercolor[]       = "#483b4b";
-static char normfgcolor[]           = "#c399a8";
-static char selfgcolor[]            = "#bdb8db";
-static char selbordercolor[]        = "#9bb996";
-static char selbgcolor[]            = "#809589";
+/* static char normbgcolor[]           = "#571f4e";
+static char normbordercolor[]       = "#846b6d";
+static char normfgcolor[]           = "#adb88c";
+static char selfgcolor[]            = "#accc96";
+static char selbordercolor[]        = "#83a28b";
+static char selbgcolor[]            = "#587b7f"; */
+static char normbgcolor[]           = "#300820";
+static char normbordercolor[]       = "#734c60";
+static char normfgcolor[]           = "#a9a684";
+static char selfgcolor[]            = "#c1e19b";
+static char selbordercolor[]        = "#8dac8e";
+static char selbgcolor[]            = "#587b7f";
 static char *colors[][3] = {
     /*               fg           bg           border   */
     [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
@@ -30,10 +36,10 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6" };
 
 static const Rule rules[] = {
     /* class            instance    title       tags mask     isfloating   monitor */
-    /* { "St",             NULL,       NULL,       0,            1,           -1 }, */
     { "XTerm",          NULL,       NULL,       0,            1,           -1 },
     { "Nsxiv",          NULL,       NULL,       0,            1,           -1 },
-    { "Firefox",        NULL,       NULL,       1 << 8,       0,           -1 },
+    { "mpv",            NULL,       NULL,       0,            1,           -1 },
+    /* { "Firefox",        NULL,       NULL,       1 << 8,       0,           -1 }, */
 };
 
 /* layout */
@@ -41,6 +47,7 @@ static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] 
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
 
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
@@ -88,76 +95,84 @@ static const char *maim[] = { "/home/ch_rism_/scripts/maim_slop", "full", NULL }
 static const char *maimslop[] = { "/home/ch_rism_/scripts/maim_slop", "select", NULL };
 static const char *paper[] = { "/home/ch_rism_/scripts/paper", NULL };
 static const char *paperfold[] = { "/home/ch_rism_/scripts/paperfold", NULL };
+static const char *xkill[] = { "killall", "xinit", NULL };
 
 static const Key keys[] = {
-    /* modifier             key                 function        argument */
-    { WIN,                  XK_space,           spawn,          {.v = dmenucmd } },
-    { WIN,                  XK_Return,          spawn,          {.v = stcmd } },        /* st        */
-    { WIN,                  XK_apostrophe,      spawn,          {.v = termcmd } },      /* ghostty   */
-    { WIN,                  XK_g,               spawn,          {.v = termcmd } },      /* ghostty   */
-    { WIN,                  XK_a,               spawn,          {.v = alacmd } },       /* alacritty */
-    { WIN|SHFT,             XK_semicolon,       togglescratch,  {.v = scratchpadcmd } },
-    { ALT|SHFT,             XK_3,               spawn,          {.v = maim } },         /* screenshot full     */ 
-    { ALT|SHFT,             XK_4,               spawn,          {.v = maimslop } },     /* screenshot geometry */
-    { ALT|SHFT,             XK_space,           spawn,          {.v = paper } },        /* wallpaper random    */
-    { ALT,                  XK_space,           spawn,          {.v = paperfold } },    /* wallpaper menu      */
-    { WIN,                  XK_b,               togglebar,      {0} },
-    { WIN,                  XK_bracketleft,     focusstack,     {.i = +1 } },
-    { WIN,                  XK_bracketright,    focusstack,     {.i = -1 } },
-    { WIN,                  XK_h,               focusdir,       {.i = 0 } },            /* left  */
-    { WIN,                  XK_l,               focusdir,       {.i = 1 } },            /* right */
-    { WIN,                  XK_k,               focusdir,       {.i = 2 } },            /* up    */
-    { WIN,                  XK_j,               focusdir,       {.i = 3 } },            /* down  */
-    { WIN,                  XK_i,               incnmaster,     {.i = +1 } },
-    { WIN,                  XK_d,               incnmaster,     {.i = -1 } },
-    { WIN,                  XK_minus,           setmfact,       {.f = -0.02} },
-    { WIN,                  XK_equal,           setmfact,       {.f = +0.02} },
-    { WIN|SHFT,             XK_minus,           setcfact,       {.f = -0.20} },
-    { WIN|SHFT,             XK_equal,           setcfact,       {.f = +0.20} },
-    { WIN|SHFT,             XK_backslash,       setcfact,       {.f =  0.00} },
-    { WIN|SHFT,             XK_Return,          zoom,           {0} },
-    { WIN|ALT,              XK_u,               incrgaps,       {.i = +3 } },
-    { WIN|ALT|SHFT,         XK_u,               incrgaps,       {.i = -3 } },
-    { WIN|ALT,              XK_i,               incrigaps,      {.i = +3 } },
-    { WIN|ALT|SHFT,         XK_i,               incrigaps,      {.i = -3 } },
-    { WIN|ALT,              XK_o,               incrogaps,      {.i = +3 } },
-    { WIN|ALT|SHFT,         XK_o,               incrogaps,      {.i = -3 } },
-    { WIN|ALT,              XK_bracketleft,     togglegaps,     {0} },
-    { WIN|ALT,              XK_p,               defaultgaps,    {0} },
-    { WIN|ALT,              XK_1,               setlayout,      {.v = &layouts[0]} },   /* tile           */
-    { WIN|ALT,              XK_2,               setlayout,      {.v = &layouts[1]} },   /* spiral         */
-    { WIN|ALT,              XK_3,               setlayout,      {.v = &layouts[2]} },   /* dwindle        */
-    { WIN|ALT,              XK_4,               setlayout,      {.v = &layouts[3]} },   /* centeredmaster */
-    { WIN|ALT,              XK_5,               setlayout,      {.v = &layouts[4]} },   /* bstack         */
-    { WIN|ALT,              XK_6,               setlayout,      {.v = &layouts[5]} },   /* bstackhoriz    */
-    { WIN|ALT,              XK_7,               setlayout,      {.v = &layouts[6]} },   /* grid           */
-    { WIN|ALT,              XK_8,               setlayout,      {.v = &layouts[7]} },   /* horizgrid      */
-    { WIN|ALT,              XK_9,               setlayout,      {.v = &layouts[8]} },   /* gaplessgrid    */
-    { WIN|ALT,              XK_0,               setlayout,      {.v = &layouts[10]} },  /* floating       */
-    { WIN|ALT|CTRL,         XK_j,               moveresize,     {.v = "0x 25y 0w 0h" } },
-    { WIN|ALT|CTRL,         XK_k,               moveresize,     {.v = "0x -25y 0w 0h" } },
-    { WIN|ALT|CTRL,         XK_l,               moveresize,     {.v = "25x 0y 0w 0h" } },
-    { WIN|ALT|CTRL,         XK_h,               moveresize,     {.v = "-25x 0y 0w 0h" } },
-    { WIN|ALT|CTRL|SHFT,    XK_j,               moveresize,     {.v = "0x 0y 0w 25h" } },
-    { WIN|ALT|CTRL|SHFT,    XK_k,               moveresize,     {.v = "0x 0y 0w -25h" } },
-    { WIN|ALT|CTRL|SHFT,    XK_l,               moveresize,     {.v = "0x 0y 25w 0h" } },
-    { WIN|ALT|CTRL|SHFT,    XK_h,               moveresize,     {.v = "0x 0y -25w 0h" } },
-    { WIN,                  XK_comma,           focusmon,       {.i = -1 } },
-    { WIN,                  XK_period,          focusmon,       {.i = +1 } },
-    { WIN|SHFT,             XK_comma,           tagmon,         {.i = -1 } },
-    { WIN|SHFT,             XK_period,          tagmon,         {.i = +1 } },
-    { WIN|ALT,              XK_Return,          xrdb,           {.v = NULL } },
-    { WIN,                  XK_0,               view,           {.ui = ~0 } },
-    { WIN|SHFT,             XK_0,               tag,            {.ui = ~0 } },
-    { WIN,                  XK_Tab,             view,           {0} },
-    { WIN,                  XK_q,               killclient,     {0} },
-    TAGKEYS(                XK_1,                                0)
-    TAGKEYS(                XK_2,                                1)
-    TAGKEYS(                XK_3,                                2)
-    TAGKEYS(                XK_4,                                3)
-    TAGKEYS(                XK_5,                                4)
-    TAGKEYS(                XK_6,                                5)
-    { WIN|SHFT|CTRL,        XK_q,               quit,           {0} },
+    /* modifier             key                         function        argument */
+    { WIN,                  XK_space,                   spawn,          {.v = dmenucmd } },
+    { WIN,                  XK_Return,                  spawn,          {.v = stcmd } },        /* st        */
+    { WIN,                  XK_apostrophe,              spawn,          {.v = termcmd } },      /* ghostty   */
+    { WIN,                  XK_g,                       spawn,          {.v = termcmd } },      /* ghostty   */
+    { WIN,                  XK_a,                       spawn,          {.v = alacmd } },       /* alacritty */
+    { 0,                    XF86XK_AudioLowerVolume,    spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -RTMIN+5 dwmblocks") },
+    { 0,                    XF86XK_AudioRaiseVolume,    spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+5 dwmblocks") },
+    { 0,                    XF86XK_AudioMute,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && herbe \"$(pactl get-sink-mute @DEFAULT_SINK@)\"") },
+    { 0,                    XF86XK_MonBrightnessDown,   spawn,          SHCMD("brightnessctl set 5%-") },
+    { 0,                    XF86XK_MonBrightnessUp,     spawn,          SHCMD("brightnessctl set +5%") },
+    { WIN|SHFT,             XK_semicolon,               togglescratch,  {.v = scratchpadcmd } },
+    { ALT|SHFT,             XK_3,                       spawn,          {.v = maim } },         /* screenshot full     */ 
+    { ALT|SHFT,             XK_4,                       spawn,          {.v = maimslop } },     /* screenshot geometry */
+    { ALT|SHFT,             XK_space,                   spawn,          {.v = paper } },        /* wallpaper random    */
+    { ALT,                  XK_space,                   spawn,          {.v = paperfold } },    /* wallpaper menu      */
+    { WIN,                  XK_b,                       togglebar,      {0} },
+    { WIN,                  XK_bracketleft,             focusstack,     {.i = +1 } },
+    { WIN,                  XK_bracketright,            focusstack,     {.i = -1 } },
+    { WIN,                  XK_h,                       focusdir,       {.i = 0 } },            /* left  */
+    { WIN,                  XK_l,                       focusdir,       {.i = 1 } },            /* right */
+    { WIN,                  XK_k,                       focusdir,       {.i = 2 } },            /* up    */
+    { WIN,                  XK_j,                       focusdir,       {.i = 3 } },            /* down  */
+    { WIN,                  XK_i,                       incnmaster,     {.i = +1 } },
+    { WIN,                  XK_d,                       incnmaster,     {.i = -1 } },
+    { WIN,                  XK_minus,                   setmfact,       {.f = -0.02} },
+    { WIN,                  XK_equal,                   setmfact,       {.f = +0.02} },
+    { WIN|SHFT,             XK_minus,                   setcfact,       {.f = -0.20} },
+    { WIN|SHFT,             XK_equal,                   setcfact,       {.f = +0.20} },
+    { WIN|SHFT,             XK_backslash,               setcfact,       {.f =  0.00} },
+    { WIN|SHFT,             XK_Return,                  zoom,           {0} },
+    { WIN|ALT,              XK_u,                       incrgaps,       {.i = +3 } },
+    { WIN|ALT|SHFT,         XK_u,                       incrgaps,       {.i = -3 } },
+    { WIN|ALT,              XK_i,                       incrigaps,      {.i = +3 } },
+    { WIN|ALT|SHFT,         XK_i,                       incrigaps,      {.i = -3 } },
+    { WIN|ALT,              XK_o,                       incrogaps,      {.i = +3 } },
+    { WIN|ALT|SHFT,         XK_o,                       incrogaps,      {.i = -3 } },
+    { WIN|ALT,              XK_bracketleft,             togglegaps,     {0} },
+    { WIN|ALT,              XK_p,                       defaultgaps,    {0} },
+    { WIN|ALT,              XK_1,                       setlayout,      {.v = &layouts[0]} },   /* tile           */
+    { WIN|ALT,              XK_2,                       setlayout,      {.v = &layouts[1]} },   /* spiral         */
+    { WIN|ALT,              XK_3,                       setlayout,      {.v = &layouts[2]} },   /* dwindle        */
+    { WIN|ALT,              XK_4,                       setlayout,      {.v = &layouts[3]} },   /* centeredmaster */
+    { WIN|ALT,              XK_5,                       setlayout,      {.v = &layouts[4]} },   /* bstack         */
+    { WIN|ALT,              XK_6,                       setlayout,      {.v = &layouts[5]} },   /* bstackhoriz    */
+    { WIN|ALT,              XK_7,                       setlayout,      {.v = &layouts[6]} },   /* grid           */
+    { WIN|ALT,              XK_8,                       setlayout,      {.v = &layouts[7]} },   /* horizgrid      */
+    { WIN|ALT,              XK_9,                       setlayout,      {.v = &layouts[8]} },   /* gaplessgrid    */
+    { WIN|ALT,              XK_0,                       setlayout,      {.v = &layouts[10]} },  /* floating       */
+    { WIN|ALT|CTRL,         XK_j,                       moveresize,     {.v = "0x 25y 0w 0h" } },
+    { WIN|ALT|CTRL,         XK_k,                       moveresize,     {.v = "0x -25y 0w 0h" } },
+    { WIN|ALT|CTRL,         XK_l,                       moveresize,     {.v = "25x 0y 0w 0h" } },
+    { WIN|ALT|CTRL,         XK_h,                       moveresize,     {.v = "-25x 0y 0w 0h" } },
+    { WIN|ALT|CTRL|SHFT,    XK_j,                       moveresize,     {.v = "0x 0y 0w 25h" } },
+    { WIN|ALT|CTRL|SHFT,    XK_k,                       moveresize,     {.v = "0x 0y 0w -25h" } },
+    { WIN|ALT|CTRL|SHFT,    XK_l,                       moveresize,     {.v = "0x 0y 25w 0h" } },
+    { WIN|ALT|CTRL|SHFT,    XK_h,                       moveresize,     {.v = "0x 0y -25w 0h" } },
+    { WIN,                  XK_comma,                   focusmon,       {.i = -1 } },
+    { WIN,                  XK_period,                  focusmon,       {.i = +1 } },
+    { WIN|SHFT,             XK_comma,                   tagmon,         {.i = -1 } },
+    { WIN|SHFT,             XK_period,                  tagmon,         {.i = +1 } },
+    { WIN|ALT,              XK_Return,                  xrdb,           {.v = NULL } },
+    { WIN,                  XK_0,                       view,           {.ui = ~0 } },
+    { WIN|SHFT,             XK_0,                       tag,            {.ui = ~0 } },
+    { WIN,                  XK_Tab,                     view,           {0} },
+    { WIN,                  XK_q,                       killclient,     {0} },
+    TAGKEYS(                XK_1,                                        0)
+    TAGKEYS(                XK_2,                                        1)
+    TAGKEYS(                XK_3,                                        2)
+    TAGKEYS(                XK_4,                                        3)
+    TAGKEYS(                XK_5,                                        4)
+    TAGKEYS(                XK_6,                                        5)
+    { WIN|SHFT|CTRL,        XK_q,                       spawn,          {.v = xkill } },        /* bug fix to exit dwm */ 
+/*  { WIN|SHFT|CTRL,        XK_q,                       spawn,          SHCMD("killall xinit") }, */
+/*  { WIN|SHFT|CTRL,        XK_q,                       quit,           {0} }, */
 };
 
 /* button definitions */

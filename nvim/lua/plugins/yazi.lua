@@ -1,5 +1,3 @@
-require("yazi").setup {
-    keymaps = {
-        open_file_in_tab = "<S-l>",
-    },
+require('yazi').setup {
+    keymaps = { open_file_in_tab = '<S-l>' },
 }

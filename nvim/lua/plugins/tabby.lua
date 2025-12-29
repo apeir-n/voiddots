@@ -1,15 +1,14 @@
-vim.api.nvim_create_autocmd("ColorScheme", {
-    pattern = "*",
+vim.api.nvim_create_autocmd('ColorScheme', {
+    pattern = '*',
     callback = function()
         local function get_fg(group, fallback)
             local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
             if ok and hl and hl.fg then
-                return string.format("#%06x", hl.fg)
+                return string.format('#%06x', hl.fg)
             end
             return fallback
         end
-        
-        -- string=grn, statement=pnk, special=yel, identifier=cyn
+
         local theme = {
             fill = 'TabLineFill',
             head = {
@@ -38,11 +37,11 @@ vim.api.nvim_create_autocmd("ColorScheme", {
                 style = 'italic',
             },
         }
-        
-        require("tabby.tabline").set(function(line)
+
+        require('tabby.tabline').set(function(line)
             return {
                 {
-                    { '  ', hl = theme.head },
+                    { ' 󱣻 ', hl = theme.head },
                 },
                 line.tabs().foreach(function(tab)
                     local is_current = tab.is_current()

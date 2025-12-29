@@ -5,13 +5,14 @@
 #chmod 700 "$XDG_RUNTIME_DIR"
 
 export XCURSOR_THEME="retrosmart-xcursor-black"
+export XDG_SESSION_TYPE="x11"
 xsetroot -cursor_name left_ptr
 xrandr --output eDP-1 --brightness $(slcat $HOME/.cache/scripts/brandr)
 xcalib -a -red 0.9 0.1 95.0 -green 0.9 0.1 100.0 -blue 1.1 0.0 90.0
 xset b off
 xset dpms 1200 1800 2400
 
-#xscreensaver -no-splash &
+xscreensaver -no-splash &
 picom &
 paper &
 pulseaudio &

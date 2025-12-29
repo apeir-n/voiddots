@@ -2,7 +2,7 @@
 
 static char *font = "monospace:pixelsize=14:antialias=true:autohint=true";
 static char *font2[] = {
-    "JetBrainsMono Nerd Font Mono:pixelsize=14:antialias=true:autohint=true",
+    "IoTerminaMindless Nerd Font Mono:pixelsize=14:antialias=true:autohint=true",
     "Noto Color Emoji:pixelsize=15:antialias=true:autohint=true",
 };
 
@@ -115,24 +115,24 @@ float alpha_def;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
-	"#1e2326",
-	"#e67e80",
-	"#a7c080",
-	"#dbbc7f",
-	"#7fbbb3",
-	"#d699bb",
-	"#83c092",
-	"#949c93",
+	"#243228",
+	"#571f4e",
+	"#5c405e",
+	"#5c5e6e",
+	"#587b7f",
+	"#7c9c89",
+	"#9ebe92",
+	"#c1e19b",
 
 	/* 8 bright colors */
-	"#495949",
-	"#d78d8f",
-	"#a3ad93",
-	"#cbb78f",
-	"#93a7a5",
-	"#c8a7b9",
-	"#96ad9c",
-	"#b8b8a9",
+	"#4f6d57",
+	"#7c596a",
+	"#7e6f76",
+	"#7d8581",
+	"#7c9a8e",
+	"#99b2a3",
+	"#bad1b2",
+	"#daedc2",
 
 	[255] = 0,
 
@@ -259,9 +259,6 @@ static Shortcut shortcuts[] = {
 	{ ControlMask,          XK_Print,           toggleprinter,  {.i =  0} },
 	{ ShiftMask,            XK_Print,           printscreen,    {.i =  0} },
 	{ XK_ANY_MOD,           XK_Print,           printsel,       {.i =  0} },
-	{ TERMMOD,              XK_Prior,           zoom,           {.f = +1} },
-	{ TERMMOD,              XK_Next,            zoom,           {.f = -1} },
-	{ TERMMOD,              XK_Home,            zoomreset,      {.f =  0} },
 	{ TERMMOD,              XK_C,               clipcopy,       {.i =  0} },
 	{ TERMMOD,              XK_V,               clippaste,      {.i =  0} },
 	{ TERMMOD,              XK_Y,               selpaste,       {.i =  0} },
@@ -271,6 +268,10 @@ static Shortcut shortcuts[] = {
 	{ MODKEY,               XK_p,               clippaste,      {.i =  0} },
 	{ MODKEY,               XK_k,               kscrollup,      {.i =  1} },
 	{ MODKEY,               XK_j,               kscrolldown,    {.i =  1} },
+	{ MODKEY,               XK_u,               kscrollup,      {.i =  25} },
+	{ MODKEY,               XK_d,               kscrolldown,    {.i =  25} },
+	{ XK_ANY_MOD,           XK_Prior,           kscrollup,      {.i =  50} },
+	{ XK_ANY_MOD,           XK_Next,            kscrolldown,    {.i =  50} },
 	{ MODKEY,               XK_equal,           zoom,           {.f = +1} },
 	{ MODKEY,               XK_minus,           zoom,           {.f = -1} },
 	{ MODKEY,               XK_0,               zoomreset,      {.f =  0} },

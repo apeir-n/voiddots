@@ -1,5 +1,5 @@
 local alpha = require('alpha')
-local dashboard = require("alpha.themes.dashboard")
+local dashboard = require('alpha.themes.dashboard')
 dashboard.section.header.val = {
 
     [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
@@ -33,18 +33,18 @@ dashboard.section.header.val = {
 }
 
 dashboard.section.buttons.val = {
-    dashboard.button("n", "  new", ":ene <BAR> startinsert <CR>"),
-    dashboard.button("f", "󰍉  find", ":lua require('fzf-lua').files() <CR>"),
-    dashboard.button("y", "  browse", ":Yazi<CR>"),
-    dashboard.button("s", "󰯂  scripts", ":e ~/nursery/scripts/<CR>"),
-    dashboard.button("c", "  config", ":e ~/.config/nvim/<CR>"),
-    dashboard.button("m", "  keys", ":e ~/.config/nvim/lua/config/mappings.lua<CR>"),
-    dashboard.button("p", "  plugins", ":PlugInstall<CR>"),
-    dashboard.button("q", "󰅙  quit", ":q!<CR>"),
+    dashboard.button('n', '  new', ':ene <BAR> startinsert <CR>'),
+    dashboard.button('f', '󰍉  find', ':Telescope<CR>'),
+    dashboard.button('y', '  browse', ':Yazi<CR>'),
+    dashboard.button('s', '󰯂  scripts', ':e ~/.local/scripts/<CR>'),
+    dashboard.button('c', '  config', ':e ~/.config/nvim/init.lua<CR>'),
+    dashboard.button('m', '  keys', ':e ~/.config/nvim/lua/config/mappings.lua<CR>'),
+    dashboard.button('p', '  plugup', ':PlugUpdate<CR>'),
+    dashboard.button('q', '󰅙  quit', ':q!<CR>'),
 }
 
 dashboard.section.footer.val = { [[ 󱣻 ]] }
 
-dashboard.section.buttons.opts.hl = "Keyword"
+dashboard.section.buttons.opts.hl = 'Keyword'
 dashboard.opts.opts.noautocmd = true
 alpha.setup(dashboard.opts)

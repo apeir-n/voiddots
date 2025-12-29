@@ -1,9 +1,9 @@
-require("noice").setup({
+require('noice').setup({
     cmdline = {
-        view = "cmdline_popup",
+        view = 'cmdline_popup',
     },
     messages = {
-        view = "mini",
+        view = 'mini',
     },
     presets = {
         bottom_search = true,

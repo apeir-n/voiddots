@@ -1,4 +1,4 @@
-require("flash").setup({
+require('flash').setup({
     modes = {
         char = {
             enabled = true,

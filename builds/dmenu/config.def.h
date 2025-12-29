@@ -8,6 +8,7 @@ static const float menu_height_ratio = 4.0f;  /* This is the ratio used in the o
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
 	"monospace:pixelsize=14",
+	"IoTerminaMindless Nerd Font:pixelsize=14",
     "Noto Color Emoji:size=15"
 };
 static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
