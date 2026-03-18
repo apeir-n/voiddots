@@ -1,12 +1,5 @@
-#env
-export EDITOR="nvim"
-export VISUAL="nvim"
-export PATH="$HOME/.local/bin:$PATH"
-export MANPAGER="less -R --use-color -Dd+M -Du+B -DP+G -Ds+C"
-#export MANPAGER="nvim +Man!"
-
 #hist
-HISTFILE=~/.cache/zsh/history
+HISTFILE="$XDG_CACHE_HOME/zsh/history"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt APPEND_HISTORY
@@ -41,57 +34,51 @@ alias ls="eza --icons --group-directories-first --color=auto --oneline --all"
 alias ll="ls -lah"
 alias la="ls -A"
 alias ..="cd .."
-alias ...="cd ../.."
 alias grep="grep --color=auto"
+alias lsblk="lsblk | bat -ppl conf"
 alias mkdir="mkdir -p"
-alias cp="cp -i"
-alias mv="mv -i"
-alias rm="rm -i"
+#alias cp="cp -i"
+#alias mv="mv -i"
+#alias rm="rm -i"
 alias wget="wget --hsts-file=$XDG_STATE_HOME/wget-hsts"
-alias zz='nvim ~/.zshrc'
-alias rz='source ~/.zshrc'
+alias zz="nvim $HOME/.zshrc"
+alias ze="nvim $HOME/.zshenv"
+alias rz="source $HOME/.zshrc"
 alias xb="doas xbps-install"
 alias xr="doas xbps-remove"
 alias xq="xbps-query"
 alias xs="xbps-slay"
-alias xini="nvim $HOME/.xinitrc"
-#alias x="launch dwm"
 alias x="launch dwm"
-alias svfailed="doas sv status /var/service/* | grep -v run"
-alias todo="nvim ~/Documents/obsidian_vault/terminaltown/denizen_todo.md"
-alias notes="nvim ~/Documents/obsidian_vault/terminaltown/denizen_notes.md"
-alias o="cd ~/Documents/obsidian_vault && y"
-alias op="cd ~/Documents/obsidian_vault/__planner && y"
-alias suck="cd ~/.local/src/suckless && y"
-alias pc="cd ~/.cache/wal && y"
-alias scripts="cd ~/scripts && y"
-alias scrots="cd ~/Pictures/screenshots && y"
-alias rs="cd ~/.local/projects/rust && y"
-alias proj="cd ~/.local/projects && y"
-alias src="cd ~/.local/src && y"
+alias xini="nvim $HOME/.xinitrc"
+alias xres="nvim $HOME/.Xresources"
+alias todo="nvim $HOME/Documents/obsidian_vault/terminaltown/denizen_todo.md"
+alias notes="nvim $HOME/Documents/obsidian_vault/terminaltown/denizen_notes.md"
+alias o="cd $HOME/Documents/Vault && y"
+alias op="cd $HOME/Documents/Vault/__planner && y"
+alias suck="cd $HOME/.local/src/suckless && y"
+alias pc="cd $HOME/.cache/wal && y"
+alias scripts="cd $HOME/scripts && y"
+alias scrots="cd $HOME/Pictures/screenshots && y"
+alias rs="cd $HOME/.local/projects/rust && y"
+alias proj="cd $HOME/.local/projects && y"
+alias src="cd $HOME/.local/src && y"
 alias cr="cargo run"
 alias crmusl="RUSTFLAGS=\"-C target-feature=-crt-static\" cargo run --target x86_64-unknown-linux-musl"
-alias pv="ping voidlinux.org"
-alias fastfetch="fastfetch --file ~/Templates/asciidoodles/void2_small.txt --logo-padding-left 3 --logo-padding-right 5"
+alias fastfetch="fastfetch --file $HOME/Templates/asciidoodles/void2_small.txt --logo-padding-left 3 --logo-padding-right 5"
 alias ff="fastfetch"
-alias colors="cat ~/.cache/wal/colors | pastel format"
-alias arc="printf '\u256d\u2500\u256e\n\u2570\u2500\u256f\n'"
-alias sqr="printf '\u250c\u2500\u2510\n\u2514\u2500\u2518\n'"
+alias pv="ping voidlinux.org"
+alias colors="cat $HOME/.cache/wal/colors | pastel format"
 alias stars="astroterm -Cc -s 400 -a 41.1081 -o -81.5148"
-alias stors="astroterm -Cuc -s 400 -a 41.1081 -o -81.5148"
-alias news="hackernews_tui"
-alias xres="nvim ~/.Xresources"
+alias sturs="astroterm -Cuc -s 400 -a 41.1081 -o -81.5148"
 alias nmtui="doas nmtui"
-alias beget="doas make install && make clean"
-alias xpetbeget="doas make clean install && doas make clean"
 alias dy="doas yazi"
-alias yesnigga='echo -e "\e[0;90myes nigga\n\e[0;91mno nigga\n\e[0;92myes nigga\n\e[0;93mno nigga\n\e[0;94myes nigga\n\e[0;95mno nigga\n\e[0;96myes nigga\n\e[0;97mno nigga\n\e[0m"'
-alias nonigga='echo -e "\e[0;90;107myes nigga\n\e[0;91;106mno nigga\n\e[0;92;105myes nigga\n\e[0;93;104mno nigga\n\e[0;94;103myes nigga\n\e[0;95;102mno nigga\n\e[0;96;101myes nigga\n\e[0;97;100mno nigga\n\e[0m"'
-alias yespleasenigga='echo -e "\e[0;30myes nigga\n\e[0;31mno nigga\n\e[0;32myes nigga\n\e[0;33mno nigga\n\e[0;34myes nigga\n\e[0;35mno nigga\n\e[0;36myes nigga\n\e[0;37mno nigga\n\e[0m"'
-alias nothankyounigga='echo -e "\e[0;30;47myes nigga\n\e[0;31;46mno nigga\n\e[0;32;45myes nigga\n\e[0;33;44mno nigga\n\e[0;34;43myes nigga\n\e[0;35;42mno nigga\n\e[0;36;41myes nigga\n\e[0;37;40mno nigga\n\e[0m"'
+alias beget="doas make install && make clean"
+alias svfailed="doas sv status /var/service/* | grep -v run"
+alias piximg="nsxiv --anti-alias=no"
+alias babycheck="nsxiv --anti-alias=no $HOME/.cache/wal/xbaby/sleeping"
+alias copy="xclip -selection clipboard"
 
 #etc
-source <(fzf --zsh)
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 eval "$(zoxide init --cmd cd zsh)"
@@ -105,7 +92,19 @@ function s() {
 }
 
 function v() {
-    ${EDITOR:-nvim} "$HOME/Documents/obsidian_vault/${(j:/:)@}.md"
+    ${EDITOR:-nvim} "$HOME/Documents/Vault/${(j:/:)@}.md"
+}
+
+function hc() {
+    hx "$HOME/.config/${(j:/:)@}"
+}
+
+function hs() {
+    hx "$HOME/scripts/${(j:/:)@}"
+}
+
+function hv() {
+    hx "$HOME/Documents/Vault/${(j:/:)@}.md"
 }
 
 function y() {

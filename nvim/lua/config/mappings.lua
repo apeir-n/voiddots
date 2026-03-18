@@ -73,7 +73,7 @@ local snuggles = require('config.snuggles')
 vim.keymap.set('n', '<leader>d', snuggles.ShowSnuggle, { desc = 'Snuggle Message 💖', })
 
 local diagnostic_toggle = false
-vim.keymap.set('n', '<leader>v', function ()
+vim.keymap.set('n', '<leader>lv', function ()
     diagnostic_toggle = not diagnostic_toggle
     vim.diagnostic.config({
         virtual_lines = {
@@ -81,7 +81,7 @@ vim.keymap.set('n', '<leader>v', function ()
         },
     })
     print('virtual lines ' .. (diagnostic_toggle and 'on' or 'off'))
-end, { desc = 'toggle virutal line diagnostics' }
+end, { desc = 'diag_line' }
 )
 
 --vim.keymap.set("n", "zh", function()

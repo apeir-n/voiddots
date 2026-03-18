@@ -41,18 +41,18 @@ vim.api.nvim_create_autocmd('ColorScheme', {
         require('tabby.tabline').set(function(line)
             return {
                 {
-                    { ' 󱣻 ', hl = theme.head },
+                    { '   ', hl = theme.head },
                 },
                 line.tabs().foreach(function(tab)
                     local is_current = tab.is_current()
                     local hl = is_current and theme.current_tab or theme.tab
                     return {
-                        is_current and line.sep('', hl, theme.fill) or ' ',
+                        is_current and line.sep(' ', hl, theme.fill) or ' ',
                         is_current and '' or '',
                         tab.number(),
                         tab.name(),
                         tab.close_btn(''),
-                        is_current and line.sep('', hl, theme.fill) or ' ',
+                        is_current and line.sep(' ', hl, theme.fill) or ' ',
                         hl = hl,
                         margin = ' ',
                     }

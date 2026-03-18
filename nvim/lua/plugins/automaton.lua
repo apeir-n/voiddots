@@ -22,4 +22,4 @@ config.update = function (grid)
     return true
 end
 
-require("cellular-automaton").register_animation(config)
+require('cellular-automaton').register_animation(config)

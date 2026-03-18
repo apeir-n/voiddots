@@ -9,7 +9,6 @@ require('neoscroll').setup({
         'zt',
         'zz',
         'zb',
-        'gg',
     },
     hide_cursor = true,
     duration_multiplier = 0.6,

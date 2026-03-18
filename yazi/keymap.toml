@@ -1,12 +1,44 @@
 [[mgr.prepend_keymap]]
+on = "N"
+run = '''
+shell '
+    nsxiv --anti-alias=no "$1"
+' -- $1
+'''
+desc = "nsxiv_open"
+
+[[mgr.prepend_keymap]]
+on = "'"
+run = '''
+shell --block '
+    hx "$1"
+' -- $1
+'''
+desc = "helix_open"
+
+[[mgr.prepend_keymap]]
+on  = [ "+", "x" ]
+run = '''
+shell '
+    chmod +x "$1"
+' -- $1
+'''
+desc = "chmodx"
+
+[[mgr.prepend_keymap]]
 on  = [ "c", "p" ]
 run = "copy dirname"
-desc = "copypath"
+desc = "copy_path"
 
 [[mgr.prepend_keymap]]
 on  = [ "c", "d" ]
 run = "plugin zoxide"
-desc = "changedir"
+desc = "change_dir"
+
+[[mgr.prepend_keymap]]
+on  = [ "g", "b" ]
+run = "cd ~/.baby"
+desc = "go_baby"
 
 [[mgr.prepend_keymap]]
 on  = [ "g", "s" ]
@@ -15,13 +47,13 @@ desc = "go_scripts"
 
 [[mgr.prepend_keymap]]
 on  = [ "g", "o" ]
-run = "cd ~/Documents/obsidian_vault"
-desc = "go_obsidianvault"
+run = 'cd ~/Documents/obsidian_vault'
+desc = "go_obsidian"
 
 [[mgr.prepend_keymap]]
 on  = [ "g", "l" ]
 run = "cd ~/.local"
-desc = "go_.local"
+desc = "go_local"
 
 [[mgr.prepend_keymap]]
 on  = [ "g", "w" ]
@@ -31,32 +63,24 @@ desc = "go_wallpapers"
 [[mgr.prepend_keymap]]
 on  = [ "g", "p" ]
 run = "cd ~/.cache/wal"
-desc = "go_walclrs"
-
-#[[mgr.prepend_keymap]]
-#on = "w"
-#run = '''
-#shell '~/scripts/paperplane "$1"' -- $1
-#'''
-#desc = "wallpaper_set"
-
-#[[mgr.prepend_keymap]]
-#on = [ "o", "n" ]
-#run = '''
-#shell 'nsxiv --anti-alias=no "$1"' -- $1
-#'''
-#desc = "open_nsxiv"
+desc = "go_pywal"
 
 [[mgr.prepend_keymap]]
-on = "N"
-run = '''
-shell 'nsxiv --anti-alias=no "$1"' -- $1
-'''
-desc = "open_nsxiv"
+on  = "H"
+run = "tab_switch -1 --relative"
+desc = "prevtab"
 
-#[[mgr.prepend_keymap]]
-#on = "U"
-#run = '''
-#shell 'git pull "$(pwd)"'
-#'''
-#desc = "git_pull"
+[[mgr.prepend_keymap]]
+on  = "L"
+run = "tab_switch 1 --relative"
+desc = "nexttab"
+
+[[mgr.prepend_keymap]]
+on   = "="
+run  = "plugin zoom 1"
+desc = "zoom_in"
+
+[[mgr.prepend_keymap]]
+on   = "-"
+run  = "plugin zoom -1"
+desc = "zoom_out"
