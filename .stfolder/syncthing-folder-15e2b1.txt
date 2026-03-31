@@ -1,5 +1,0 @@
-# This directory is a Syncthing folder marker.
-# Do not delete.
-
-folderID: myuht-zxkgd
-created: 2026-03-14T17:38:25-04:00
